@@ -2,5 +2,7 @@
 .idea/
 .ruff_cache/
 venv/
+node_modules/
+out/
 __pycache__
 data-*.json

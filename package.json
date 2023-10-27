@@ -1,0 +1,32 @@
+{
+  "name": "poe-palette",
+  "description": "A command palette for Path of Exile",
+  "author": "Florian Braun",
+  "license": "GPLv3",
+  "version": "0.1.0",
+  "main": "src/main/main.js",
+  "scripts": {
+    "lintjs": "eslint .",
+    "lintcss": "stylelint \"**/*.css\"",
+    "formatjs": "eslint --fix .",
+    "formatcss": "stylelint --fix \"**/*.css\"",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.4.2",
+    "@electron-forge/maker-deb": "^6.4.2",
+    "@electron-forge/maker-rpm": "^6.4.2",
+    "@electron-forge/maker-squirrel": "^6.4.2",
+    "@electron-forge/maker-zip": "^6.4.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
+    "electron": "^27.0.2",
+    "eslint": "^8.50.0",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard": "^34.0.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  }
+}
