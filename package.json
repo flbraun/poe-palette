@@ -1,6 +1,6 @@
 {
   "name": "poe-palette",
-  "description": "A command palette for Path of Exile",
+  "description": "A command palette for accessing your favorite Path of Exile resources.",
   "author": "Florian Braun",
   "license": "GPLv3",
   "version": "0.1.0",
