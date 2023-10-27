@@ -64,5 +64,4 @@ jobs:
                 S3_PUBLIC_BUCKET: ${{ secrets.S3_PUBLIC_BUCKET }}
                 CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
               run: |
-                  mv data-files/data-*.json .
                   python -m data pub data-*.json
