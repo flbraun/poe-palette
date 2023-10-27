@@ -10,7 +10,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                league: [challenge, challenge-hc, standard, hc]
+                league: [challenge]
         steps:
             - name: Checkout
               uses: actions/checkout@v4
