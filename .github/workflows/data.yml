@@ -3,6 +3,7 @@ name: Data
 on:
     schedule:
         - cron: '* 8 * * *'
+    workflow_dispatch:
 
 jobs:
 
