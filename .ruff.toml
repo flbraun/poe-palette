@@ -1,0 +1,23 @@
+target-version = "py311"
+line-length = 120
+select = [
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # pyupgrade
+  "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  "SIM",
+  # isort
+  "I",
+]
+
+[flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "single"
+
+[isort]
+lines-after-imports = 2

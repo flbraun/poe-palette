@@ -1,0 +1,4 @@
+boto3
+humanize
+requests
+tabulate

@@ -1,2 +1,6 @@
 .vscode/
 .idea/
+.ruff_cache/
+venv/
+__pycache__
+data-*.json
