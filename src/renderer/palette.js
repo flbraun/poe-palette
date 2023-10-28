@@ -68,7 +68,7 @@ const makePalette = (searchInput, resultlist) => {
         resultlist.replaceChildren()
 
         // prepare search
-        const term = searchInput.value
+        const term = searchInput.value.strip()
         if (term.length === 0) {
             return // search field was reset; don't bother the search index
         }
