@@ -1,0 +1,40 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - "v*.*.*"
+
+permissions:
+    contents: write
+
+jobs:
+
+    build:
+        runs-on: windows-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Set up Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20.9
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Sanity-check tag and app version
+              uses: geritol/match-tag-to-package-version@0.2.0
+              with:
+                  TAG_PREFIX: v
+
+            - name: Build
+              run: npm run make
+
+            - name: Create release
+              uses: softprops/action-gh-release@v1
+              with:
+                  files: |
+                      out/make/zip/win32/x64/poe-palette-win32-x64-${{ github.ref_name }}.zip
+                      LICENSE.txt
