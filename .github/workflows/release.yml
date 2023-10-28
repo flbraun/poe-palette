@@ -35,6 +35,7 @@ jobs:
             - name: Create release
               uses: softprops/action-gh-release@v1
               with:
+                  fail_on_unmatched_files: true
                   files: |
-                      out/make/zip/win32/x64/poe-palette-win32-x64-${{ github.ref_name }}.zip
+                      out/make/zip/win32/x64/poe-palette-win32-x64-*.zip
                       LICENSE.txt
