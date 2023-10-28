@@ -64,10 +64,17 @@ def make_trade_url(type_: str, name: str | None = None) -> URL:
 
 
 def make_bulk_trade_url(name: str) -> URL:
+    if name == 'Divine Orb':
+        have = ['chaos']
+    elif name == 'Chaos Orb':
+        have = ['divine']
+    else:
+        have = ['chaos', 'divine']
+
     query = {
         'exchange': {
             'status': {'option': 'online'},
-            'have': ['divine', 'chaos'],
+            'have': have,
             'want': [slugify(name)],
         }
     }
