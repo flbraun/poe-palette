@@ -14,6 +14,14 @@ const ICONS = {
     GOTO: '../../assets/goto.png',
 }
 
+// register click handlers that hide the window when clicking outside of the palette area
+document.getElementsByTagName('body')[0].addEventListener('click', () => {
+    window.electronAPI.hideWindow()
+})
+document.getElementById('palette').addEventListener('click', (event) => {
+    event.stopPropagation()
+})
+
 const makePalette = (searchInput, resultlist) => {
     let selectedResult = null
 

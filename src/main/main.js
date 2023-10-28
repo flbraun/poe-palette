@@ -61,6 +61,7 @@ app.whenReady().then(() => {
 
     ipcMain.handle('externalUrlOpen', (event, url) => shell.openExternal(url))
     ipcMain.handle('panic', (event, msg) => panic(window, msg))
+    ipcMain.handle('hideWindow', () => window.hide())
 
     const shortcut = 'CommandOrControl+Shift+P'
     const ret = globalShortcut.register(shortcut, () => toggleWindowVisibility(window))
