@@ -14,6 +14,9 @@ const ICONS = {
     GOTO: '../../assets/goto.png',
 }
 
+const resultTypes = ['wiki', 'poedb', 'ninja', 'trade', 'tool']
+const specialSearchPrefixes = resultTypes.map(e => `${e}:`)
+
 // register click handlers that hide the window when clicking outside of the palette area
 document.getElementsByTagName('body')[0].addEventListener('click', () => {
     window.electronAPI.hideWindow()
@@ -68,15 +71,25 @@ const makePalette = (searchInput, resultlist) => {
         resultlist.replaceChildren()
 
         // prepare search
-        const term = searchInput.value.trim()
+        let term = searchInput.value.trim()
+        let targetedSearch = null  // null or one of resultTypes
+
+        // are we searching for something special? e.g. "ninja:fragment of"
+        const targetedSearchesMatched = specialSearchPrefixes.filter(e => term.startsWith(e))
+        if (targetedSearchesMatched.length > 0) {
+            targetedSearch = targetedSearchesMatched[0].replace(':', '')
+            term = term.substring(targetedSearch.length + 1)
+        }
+
         if (term.length === 0) {
-            return // search field was reset; don't bother the search index
+            return // no usable term present; don't bother the search index
         }
 
         // perform search
-        console.time(`search for "${term}"`)
+        const timeName = targetedSearch !== null ? `targeted search (${targetedSearch}) for "${term}"` : `search for "${term}"`
+        console.time(timeName)
         const searchresults = POEPALETTE_MINISEARCH.search(term, { prefix: true, fuzzy: 0.2 })
-        console.timeEnd(`search for "${term}"`)
+        console.timeEnd(timeName)
 
         // handle search results
         if (searchresults.length === 0) {
@@ -84,20 +97,21 @@ const makePalette = (searchInput, resultlist) => {
             addResultNode(ICONS.WIKI, `Search wiki for "${term}"`, `https://www.poewiki.net/index.php?title=Special:Search&search=${term}`)
         } else {
             // render first N search results
-            searchresults.slice(0, 5).forEach(r => {
-                if (Object.prototype.hasOwnProperty.call(r, 'wiki_url') && r.wiki_url !== null) {
+            const maxResults = targetedSearch === null ? 5 : 5 * resultTypes.length
+            searchresults.slice(0, maxResults).forEach(r => {
+                if ([null, 'wiki'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'wiki_url') && r.wiki_url !== null) {
                     addResultNode(ICONS.WIKI, r.display_text, r.wiki_url)
                 }
-                if (Object.prototype.hasOwnProperty.call(r, 'poedb_url') && r.poedb_url !== null) {
+                if ([null, 'poedb'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'poedb_url') && r.poedb_url !== null) {
                     addResultNode(ICONS.POEDB, r.display_text, r.poedb_url)
                 }
-                if (Object.prototype.hasOwnProperty.call(r, 'ninja_url') && r.ninja_url !== null) {
+                if ([null, 'ninja'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'ninja_url') && r.ninja_url !== null) {
                     addResultNode(ICONS.NINJA, r.display_text, r.ninja_url)
                 }
-                if (Object.prototype.hasOwnProperty.call(r, 'trade_url') && r.trade_url !== null) {
+                if ([null, 'trade'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'trade_url') && r.trade_url !== null) {
                     addResultNode(ICONS.TRADE, `Trade for ${r.display_text}`, r.trade_url)
                 }
-                if (Object.prototype.hasOwnProperty.call(r, 'tool_url') && r.tool_url !== null) {
+                if ([null, 'tool'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'tool_url') && r.tool_url !== null) {
                     addResultNode(ICONS.GOTO, `Open ${r.display_text}`, r.tool_url)
                 }
             })
