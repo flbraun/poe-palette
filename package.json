@@ -22,5 +22,8 @@
     "eslint": "^8.50.0",
     "stylelint": "^15.10.3",
     "stylelint-config-standard": "^34.0.0"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
   }
 }
