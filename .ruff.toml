@@ -12,7 +12,7 @@ select = [
   "UP", # pyupgrade
   "YTT", # flake8-2020
   "ANN", # flake8-annotations
-  "ASYNC", #  flake8-async
+  "ASYNC", # flake8-async
   "S", # flake8-bandit
   "BLE", # flake8-blind-except
   "FBT", # flake8-boolean-trap
@@ -33,9 +33,13 @@ select = [
   "INP", # flake8-no-pep420
   "PIE", # flake8-pie
 #  "T20", # flake8-print
+  "PYI", # flake8-pyi
+  "PT", # flake8-pytest-style
+  "Q", # flake8-quotes
   "RSE", # flake8-raise
   "RET", # flake8-return
   "SLF", # flake8-self
+  "SLOT", # flake8-slots
   "SIM", # flake8-simplify
   "TID", # flake8-tidy-imports
   "TCH", # flake8-type-checking
@@ -45,8 +49,10 @@ select = [
   "TD", # flake8-todos
   "FIX", # flake8-fixme
   "ERA", # eradicate
+  "PD", # pandas-vet
   "PGH", # pygrep-hooks
   "PL", # Pylint
+  "TRY", # tryceratops
   "FLY", # flynt
   "NPY", # NumPy-specific rules
   "AIR", # Airflow
