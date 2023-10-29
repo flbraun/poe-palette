@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain, shell, globalShortcut, dialog } = require('
 const path = require('node:path')
 const tray = require('./tray')
 
+app.commandLine.appendSwitch('wm-window-animations-disabled')
+
 const createWindow = (width, height) => {
     const win = new BrowserWindow({
         width: width,
