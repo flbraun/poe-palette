@@ -12,6 +12,10 @@
             "error",
             4
         ],
+        "max-len": [
+            "error",
+            { "code": 120 }
+        ],
         "linebreak-style": [
             "error",
             "unix"

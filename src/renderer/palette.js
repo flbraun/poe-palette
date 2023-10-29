@@ -86,7 +86,7 @@ const makePalette = (searchInput, resultlist) => {
         }
 
         // perform search
-        const timeName = targetedSearch !== null ? `targeted search (${targetedSearch}) for "${term}"` : `search for "${term}"`
+        const timeName = targetedSearch !== null ? `targeted search (${targetedSearch}) for "${term}"` : `search for "${term}"` // eslint-disable-line max-len
         console.time(timeName)
         const searchresults = POEPALETTE_MINISEARCH.search(term, { prefix: true, fuzzy: 0.2 })
         console.timeEnd(timeName)
@@ -94,24 +94,44 @@ const makePalette = (searchInput, resultlist) => {
         // handle search results
         if (searchresults.length === 0) {
             // no results found, offer wiki search
-            addResultNode(ICONS.WIKI, `Search wiki for "${term}"`, `https://www.poewiki.net/index.php?title=Special:Search&search=${term}`)
+            addResultNode(ICONS.WIKI, `Search wiki for "${term}"`, `https://www.poewiki.net/index.php?title=Special:Search&search=${term}`) // eslint-disable-line max-len
         } else {
             // render first N search results
             const maxResults = targetedSearch === null ? 5 : 5 * resultTypes.length
             searchresults.slice(0, maxResults).forEach(r => {
-                if ([null, 'wiki'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'wiki_url') && r.wiki_url !== null) {
+                if (
+                    [null, 'wiki'].includes(targetedSearch)
+                    && Object.prototype.hasOwnProperty.call(r, 'wiki_url')
+                    && r.wiki_url !== null
+                ) {
                     addResultNode(ICONS.WIKI, r.display_text, r.wiki_url)
                 }
-                if ([null, 'poedb'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'poedb_url') && r.poedb_url !== null) {
+                if (
+                    [null, 'poedb'].includes(targetedSearch)
+                    && Object.prototype.hasOwnProperty.call(r, 'poedb_url')
+                    && r.poedb_url !== null
+                ) {
                     addResultNode(ICONS.POEDB, r.display_text, r.poedb_url)
                 }
-                if ([null, 'ninja'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'ninja_url') && r.ninja_url !== null) {
+                if (
+                    [null, 'ninja'].includes(targetedSearch)
+                    && Object.prototype.hasOwnProperty.call(r, 'ninja_url')
+                    && r.ninja_url !== null
+                ) {
                     addResultNode(ICONS.NINJA, r.display_text, r.ninja_url)
                 }
-                if ([null, 'trade'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'trade_url') && r.trade_url !== null) {
+                if (
+                    [null, 'trade'].includes(targetedSearch)
+                    && Object.prototype.hasOwnProperty.call(r, 'trade_url')
+                    && r.trade_url !== null
+                ) {
                     addResultNode(ICONS.TRADE, `Trade for ${r.display_text}`, r.trade_url)
                 }
-                if ([null, 'tool'].includes(targetedSearch) && Object.prototype.hasOwnProperty.call(r, 'tool_url') && r.tool_url !== null) {
+                if (
+                    [null, 'tool'].includes(targetedSearch)
+                    && Object.prototype.hasOwnProperty.call(r, 'tool_url')
+                    && r.tool_url !== null
+                ) {
                     addResultNode(ICONS.GOTO, `Open ${r.display_text}`, r.tool_url)
                 }
             })
