@@ -1,3 +1,4 @@
+import itertools
 import pprint
 from collections.abc import Generator
 
@@ -162,6 +163,23 @@ KNOWN_NINJA_UNLISTED_NAMES: set[str] = {  # item names that are never listed on 
     'Wereclaw Talisman', # always drops rare and corrupted
     'Writhing Talisman', # always drops rare and corrupted
     "Thief's Trinket", # always drops rare and corrupted
+    # currency (mostly shards)
+    'Chaos Orb', # gold standard, so will never be listed
+    "Facetor's Lens", # price varies by stored experience
+    'Alchemy Shard',
+    'Alteration Shard',
+    'Ancient Shard',
+    'Bestiary Orb',
+    'Binding Shard',
+    'Chaos Shard',
+    "Engineer's Shard",
+    'Horizon Shard',
+    'Imprint',
+    'Imprinted Bestiary Orb',
+    'Regal Shard',
+    'Scroll Fragment',
+    'Transmutation Shard',
+    "Harbinger's Shard",
     # misc
     'Fine Incubator',  # low-level version of Ornate Incubator
     'Whispering Incubator',  # low-level version Infused Incubator
@@ -173,6 +191,19 @@ KNOWN_NINJA_UNLISTED_NAMES: set[str] = {  # item names that are never listed on 
     'Ignominious Fate', # The Tower of Ordeals piece
     'Victorious Fate', # The Tower of Ordeals piece
     'Will of Chaos', # The Tower of Ordeals piece
+    'Deregulation Scroll', # upgrades Harbinger items
+    'Electroshock Scroll', # upgrades Harbinger items
+    'Fragmentation Scroll', # upgrades Harbinger items
+    'Haemocombustion Scroll', # upgrades Harbinger items
+    'Specularity Scroll', # upgrades Harbinger items
+    'Time-light Scroll', # upgrades Harbinger items
+    'Ritual Splinter',
+    *( # non-collectable Expedition artifacts
+        f'{tier} {faction} Artifact' for tier, faction in itertools.product(
+            ('Lesser', 'Greater', 'Grand', 'Exceptional'),
+            ('Black Scythe', 'Broken Circle', 'Order', 'Sun'),
+        )
+    ),
 }
 KNOWN_NINJA_UNLISTED_CLASSES: set[str] = {  # wiki item classes that are never listed on ninja
     'Monster Organ Sample',
