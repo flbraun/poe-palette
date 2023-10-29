@@ -3,7 +3,7 @@
   "description": "A command palette for accessing your favorite Path of Exile resources.",
   "author": "Florian Braun",
   "license": "GPLv3",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "main": "src/main/main.js",
   "scripts": {
     "lintjs": "eslint .",
