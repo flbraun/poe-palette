@@ -1,5 +1,6 @@
 import dataclasses
 import functools
+import http
 
 from tabulate import tabulate
 
@@ -94,18 +95,19 @@ class NinjaIndex:
         for category, items in self.raw.items():
             if item_name in items:
                 return category
+        return None
 
     @property
-    def stats(self):
+    def stats(self) -> dict[NinjaCategory, int]:
         return {key: len(self.raw[key]) for key in self.raw}
 
-    def print_stats(self):
+    def print_stats(self) -> None:
         print(
             tabulate(
                 [[category, length] for category, length in self.stats.items()],
                 headers=('ninja category', '# items'),
                 tablefmt='outline',
-            )
+            ),
         )
 
 
@@ -122,7 +124,7 @@ def get_ninja_index() -> NinjaIndex:
         url, response_attr = endpoint_info
 
         res = session.get(url)
-        assert res.status_code == 200
+        assert res.status_code == http.HTTPStatus.OK
 
         res_parsed = res.json()
         index[category] = {line[response_attr] for line in res_parsed['lines']}

@@ -9,12 +9,13 @@ from .types import URL
 
 
 class LoggedRequestsSession(requests.Session):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-        self.hooks['response'].append(self._log_response_stats)
+        self.hooks['response'].append(self.log_response_stats)
 
-    def _log_response_stats(self, r, *args, **kwargs):
+    @staticmethod
+    def log_response_stats(r: requests.Session, *args, **kwargs) -> None:
         logger = logging.getLogger('http_request')
         logger.info(
             '%s %s %s %s',
@@ -52,5 +53,4 @@ def make_poedb_url(item_name: str) -> URL:
 
 def slugify(text: str) -> str:
     text = text.replace("'", '').replace(' ', '-')
-    text = text.lower()
-    return text
+    return text.lower()

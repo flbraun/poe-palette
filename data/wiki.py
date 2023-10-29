@@ -1,3 +1,4 @@
+import http
 import itertools
 import pprint
 from collections.abc import Generator
@@ -10,7 +11,7 @@ from .types import Rarity
 from .utils import Entry, LoggedRequestsSession, make_poedb_url, make_wiki_url
 
 
-def iter_wiki_query(**cargo_params):
+def iter_wiki_query(**cargo_params: dict[str, str]) -> Generator[dict, None, None]:
     page_size = 500
     offset = 0
 
@@ -27,7 +28,7 @@ def iter_wiki_query(**cargo_params):
                 **cargo_params,
             },
         )
-        assert res.status_code == 200
+        assert res.status_code == http.HTTPStatus.OK
 
         res_decoded = res.json()
         try:
@@ -135,37 +136,37 @@ KNOWN_NINJA_UNLISTED_NAMES: set[str] = {  # item names that are never listed on 
     'Small Clorster Jewel',
     'Small Cluster Jewel',
     'Breach Ring',  # always drops rare and corrupted
-    'Ashscale Talisman', # always drops rare and corrupted
-    'Avian Twins Talisman', # always drops rare and corrupted
-    'Black Maw Talisman', # always drops rare and corrupted
-    'Bonespire Talisman', # always drops rare and corrupted
-    'Breakrib Talisman', # always drops rare and corrupted
-    'Chrysalis Talisman', # always drops rare and corrupted
-    'Clutching Talisman', # always drops rare and corrupted
-    'Deadhand Talisman', # always drops rare and corrupted
-    'Deep One Talisman', # always drops rare and corrupted
-    'Fangjaw Talisman', # always drops rare and corrupted
-    'Hexclaw Talisman', # always drops rare and corrupted
-    'Horned Talisman', # always drops rare and corrupted
-    'Lone Antler Talisman', # always drops rare and corrupted
-    'Longtooth Talisman', # always drops rare and corrupted
-    'Mandible Talisman', # always drops rare and corrupted
-    'Monkey Paw Talisman', # always drops rare and corrupted
-    'Monkey Twins Talisman', # always drops rare and corrupted
-    'Primal Skull Talisman', # always drops rare and corrupted
-    'Rot Head Talisman', # always drops rare and corrupted
-    'Rotfeather Talisman', # always drops rare and corrupted
-    'Spinefuse Talisman', # always drops rare and corrupted
-    'Splitnewt Talisman', # always drops rare and corrupted
-    'Three Hands Talisman', # always drops rare and corrupted
-    'Three Rat Talisman', # always drops rare and corrupted
-    'Undying Flesh Talisman', # always drops rare and corrupted
-    'Wereclaw Talisman', # always drops rare and corrupted
-    'Writhing Talisman', # always drops rare and corrupted
-    "Thief's Trinket", # always drops rare and corrupted
+    'Ashscale Talisman',  # always drops rare and corrupted
+    'Avian Twins Talisman',  # always drops rare and corrupted
+    'Black Maw Talisman',  # always drops rare and corrupted
+    'Bonespire Talisman',  # always drops rare and corrupted
+    'Breakrib Talisman',  # always drops rare and corrupted
+    'Chrysalis Talisman',  # always drops rare and corrupted
+    'Clutching Talisman',  # always drops rare and corrupted
+    'Deadhand Talisman',  # always drops rare and corrupted
+    'Deep One Talisman',  # always drops rare and corrupted
+    'Fangjaw Talisman',  # always drops rare and corrupted
+    'Hexclaw Talisman',  # always drops rare and corrupted
+    'Horned Talisman',  # always drops rare and corrupted
+    'Lone Antler Talisman',  # always drops rare and corrupted
+    'Longtooth Talisman',  # always drops rare and corrupted
+    'Mandible Talisman',  # always drops rare and corrupted
+    'Monkey Paw Talisman',  # always drops rare and corrupted
+    'Monkey Twins Talisman',  # always drops rare and corrupted
+    'Primal Skull Talisman',  # always drops rare and corrupted
+    'Rot Head Talisman',  # always drops rare and corrupted
+    'Rotfeather Talisman',  # always drops rare and corrupted
+    'Spinefuse Talisman',  # always drops rare and corrupted
+    'Splitnewt Talisman',  # always drops rare and corrupted
+    'Three Hands Talisman',  # always drops rare and corrupted
+    'Three Rat Talisman',  # always drops rare and corrupted
+    'Undying Flesh Talisman',  # always drops rare and corrupted
+    'Wereclaw Talisman',  # always drops rare and corrupted
+    'Writhing Talisman',  # always drops rare and corrupted
+    "Thief's Trinket",  # always drops rare and corrupted
     # currency (mostly shards)
-    'Chaos Orb', # gold standard, so will never be listed
-    "Facetor's Lens", # price varies by stored experience
+    'Chaos Orb',  # gold standard, so will never be listed
+    "Facetor's Lens",  # price varies by stored experience
     'Alchemy Shard',
     'Alteration Shard',
     'Ancient Shard',
@@ -183,22 +184,22 @@ KNOWN_NINJA_UNLISTED_NAMES: set[str] = {  # item names that are never listed on 
     # misc
     'Fine Incubator',  # low-level version of Ornate Incubator
     'Whispering Incubator',  # low-level version Infused Incubator
-    "Gemcutter's Incubator", # superseded by Thaumaturge's Incubator?
+    "Gemcutter's Incubator",  # superseded by Thaumaturge's Incubator?
     'Pale Court Set',
     'Blood-filled Vessel',
     'Chronicle of Atzoatl',
-    'Deadly End', # The Tower of Ordeals piece
-    'Ignominious Fate', # The Tower of Ordeals piece
-    'Victorious Fate', # The Tower of Ordeals piece
-    'Will of Chaos', # The Tower of Ordeals piece
-    'Deregulation Scroll', # upgrades Harbinger items
-    'Electroshock Scroll', # upgrades Harbinger items
-    'Fragmentation Scroll', # upgrades Harbinger items
-    'Haemocombustion Scroll', # upgrades Harbinger items
-    'Specularity Scroll', # upgrades Harbinger items
-    'Time-light Scroll', # upgrades Harbinger items
+    'Deadly End',  # The Tower of Ordeals piece
+    'Ignominious Fate',  # The Tower of Ordeals piece
+    'Victorious Fate',  # The Tower of Ordeals piece
+    'Will of Chaos',  # The Tower of Ordeals piece
+    'Deregulation Scroll',  # upgrades Harbinger items
+    'Electroshock Scroll',  # upgrades Harbinger items
+    'Fragmentation Scroll',  # upgrades Harbinger items
+    'Haemocombustion Scroll',  # upgrades Harbinger items
+    'Specularity Scroll',  # upgrades Harbinger items
+    'Time-light Scroll',  # upgrades Harbinger items
     'Ritual Splinter',
-    *( # non-collectable Expedition artifacts
+    *(  # non-collectable Expedition artifacts
         f'{tier} {faction} Artifact' for tier, faction in itertools.product(
             ('Lesser', 'Greater', 'Grand', 'Exceptional'),
             ('Black Scythe', 'Broken Circle', 'Order', 'Sun'),
@@ -275,5 +276,5 @@ def get_items() -> Generator[Entry, None, None]:
             [[*thing] for thing in sorted(ninja_unknown, key=lambda x: x[2])],
             headers=('name', 'base item', 'class', 'rarity id'),
             tablefmt='outline',
-        )
+        ),
     )

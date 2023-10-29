@@ -1,6 +1,8 @@
 import argparse
+import http
 import logging
 import sys
+from pathlib import Path
 
 
 logging.basicConfig(level=logging.INFO)
@@ -52,7 +54,7 @@ if args.command == 'gen':
     for num, entry in enumerate(itertools.chain(get_items(), get_beasts(), get_tools())):
         data.append({'id': num, **asdict(entry)})
 
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now(tz=datetime.UTC)
     doc = {
         'meta': {
             'league': args.league,
@@ -85,7 +87,7 @@ elif args.command == 'pub':
 
     uploaded = []
     for filename in args.filename:
-        size = humanize.naturalsize(os.stat(filename).st_size, binary=True)
+        size = humanize.naturalsize(Path.stat(filename).st_size, binary=True)
         print(f'Uploading {filename} ({size}) to S3...', end='')
         try:
             s3.upload_file(
@@ -122,7 +124,7 @@ elif args.command == 'pub':
             },
         )
         response_status = response['ResponseMetadata']['HTTPStatusCode']
-        assert response_status == 201, f'Invalidation failed with status {response_status}.'
+        assert response_status == http.HTTPStatus.CREATED, f'Invalidation failed with status {response_status}.'
     else:
         print('No files to invalidate in CloudFront.')
 

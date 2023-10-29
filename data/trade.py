@@ -176,7 +176,7 @@ def make_bulk_trade_url(name: str) -> URL:
             'status': {'option': 'online'},
             'have': have,
             'want': [want],
-        }
+        },
     }
 
     query_quoted = quote(json.dumps(query))
