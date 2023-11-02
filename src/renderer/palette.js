@@ -27,6 +27,12 @@ document.getElementById('palette').addEventListener('click', (event) => {
 
 const makePalette = (searchInput, resultlist) => {
     let selectedResult = null
+    let enabledResultTypes = []
+
+    window.electronAPI.onEnabledResultTypesChanged((event, resultTypes) => {
+        console.log(`enabled result types: ${resultTypes}`)
+        enabledResultTypes = resultTypes
+    })
 
     const addResultNode = (icon, text, target) => {
         const image = document.createElement('img')
@@ -100,35 +106,40 @@ const makePalette = (searchInput, resultlist) => {
             const maxResults = targetedSearch === null ? 5 : 5 * resultTypes.length
             searchresults.slice(0, maxResults).forEach(r => {
                 if (
-                    [null, 'wiki'].includes(targetedSearch)
+                    enabledResultTypes.includes('wiki')
+                    && [null, 'wiki'].includes(targetedSearch)
                     && Object.prototype.hasOwnProperty.call(r, 'wiki_url')
                     && r.wiki_url !== null
                 ) {
                     addResultNode(ICONS.WIKI, r.display_text, r.wiki_url)
                 }
                 if (
-                    [null, 'poedb'].includes(targetedSearch)
+                    enabledResultTypes.includes('poedb')
+                    && [null, 'poedb'].includes(targetedSearch)
                     && Object.prototype.hasOwnProperty.call(r, 'poedb_url')
                     && r.poedb_url !== null
                 ) {
                     addResultNode(ICONS.POEDB, r.display_text, r.poedb_url)
                 }
                 if (
-                    [null, 'ninja'].includes(targetedSearch)
+                    enabledResultTypes.includes('ninja')
+                    && [null, 'ninja'].includes(targetedSearch)
                     && Object.prototype.hasOwnProperty.call(r, 'ninja_url')
                     && r.ninja_url !== null
                 ) {
                     addResultNode(ICONS.NINJA, r.display_text, r.ninja_url)
                 }
                 if (
-                    [null, 'trade'].includes(targetedSearch)
+                    enabledResultTypes.includes('trade')
+                    && [null, 'trade'].includes(targetedSearch)
                     && Object.prototype.hasOwnProperty.call(r, 'trade_url')
                     && r.trade_url !== null
                 ) {
                     addResultNode(ICONS.TRADE, `Trade for ${r.display_text}`, r.trade_url)
                 }
                 if (
-                    [null, 'tool'].includes(targetedSearch)
+                    enabledResultTypes.includes('tool')
+                    && [null, 'tool'].includes(targetedSearch)
                     && Object.prototype.hasOwnProperty.call(r, 'tool_url')
                     && r.tool_url !== null
                 ) {

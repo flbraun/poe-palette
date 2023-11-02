@@ -4,5 +4,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     externalUrlOpen: (url) => ipcRenderer.invoke('externalUrlOpen', url),
     panic: (msg) => ipcRenderer.invoke('panic', msg),
     hideWindow: () => ipcRenderer.invoke('hideWindow'),
-    getSelectedLeague: () => ipcRenderer.invoke('getSelectedLeague'),
+    onLeagueChanged: (callback) => ipcRenderer.on('leagueChanged', callback),
+    onEnabledResultTypesChanged: (callback) => ipcRenderer.on('enabledResultTypesChanged', callback),
 })
