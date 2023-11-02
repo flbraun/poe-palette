@@ -67,7 +67,7 @@ app.whenReady().then(() => {
     ipcMain.handle('hideWindow', () => window.hide())
     ipcMain.handle('getSelectedLeague', () => userSettings.get('league'))
 
-    const shortcut = 'CommandOrControl+Shift+P'
+    const shortcut = 'CommandOrControl+P'
     const ret = globalShortcut.register(shortcut, () => toggleWindowVisibility(window))
     if (!ret) {
         panic(window, `Failed to register shortcut: ${shortcut}`)
