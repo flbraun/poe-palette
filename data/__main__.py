@@ -4,6 +4,11 @@ import logging
 import sys
 from pathlib import Path
 
+from .types import LeagueType
+from .utils import EnumAction
+
+
+DEFAULT_DATA_FILES = [f'data-{lt.value}.json' for lt in LeagueType]
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,25 +17,17 @@ subparsers = parser.add_subparsers(dest='command')
 
 gen = subparsers.add_parser('gen')
 gen.add_argument(
-    'league',
-    choices=[
-        'challenge',
-        'challenge-hc',
-        'standard',
-        'hc',
-    ],
+    'league_type',
+    type=LeagueType,
+    action=EnumAction,
 )
 
 pub = subparsers.add_parser('pub')
 pub.add_argument(
     'filename',
     nargs='+',
-    default=[
-        'data-challenge.json',
-        # 'data-challenge-hc.json',
-        # 'data-standard.json',
-        # 'data-hc.json',
-    ],
+    default=DEFAULT_DATA_FILES,
+    choices=DEFAULT_DATA_FILES,
 )
 
 args = parser.parse_args()
@@ -46,25 +43,35 @@ if args.command == 'gen':
     from dataclasses import asdict
 
     from .beasts import get_beasts
+    from .leagues import get_leagues
     from .tools import get_tools
     from .wiki import get_items
 
+    league = get_leagues()[args.league_type]
+    print(f'Aggregating data for {league.title} ({league.slug})...')
+
     data = []
 
-    for num, entry in enumerate(itertools.chain(get_items(), get_beasts(), get_tools())):
+    for num, entry in enumerate(
+        itertools.chain(
+            get_items(league),
+            get_beasts(league),
+            get_tools(league),
+        ),
+    ):
         data.append({'id': num, **asdict(entry)})
 
     now = datetime.datetime.now(tz=datetime.UTC)
     doc = {
         'meta': {
-            'league': args.league,
+            'league': args.league_type.value,
             'timestamp': datetime.datetime.timestamp(now),
             'timestamp_human': now.isoformat(),
         },
         'data': data,
     }
 
-    with pathlib.Path(f'data-{args.league}.json').open('w') as file:
+    with pathlib.Path(f'data-{args.league_type.value}.json').open('w') as file:
         json.dump(doc, file)
 
 

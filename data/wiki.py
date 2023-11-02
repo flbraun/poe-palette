@@ -5,6 +5,7 @@ from collections.abc import Generator
 
 from tabulate import tabulate
 
+from .leagues import League
 from .ninja import NinjaCategory, get_ninja_index, make_ninja_url
 from .trade import automake_trade_url
 from .types import Rarity
@@ -224,10 +225,10 @@ KNOWN_NINJA_UNLISTED_CLASSES: set[str] = {  # wiki item classes that are never l
 }
 
 
-def get_items() -> Generator[Entry, None, None]:
+def get_items(league: League) -> Generator[Entry, None, None]:
     ninja_unknown = []
 
-    ninja_index = get_ninja_index()
+    ninja_index = get_ninja_index(league)
 
     for item in iter_wiki_query(
         tables='items',
@@ -264,10 +265,10 @@ def get_items() -> Generator[Entry, None, None]:
             ninja_category is not None and
             ninja_category not in {NinjaCategory.CLUSTER_JEWELS, NinjaCategory.HELMET_ENCHANTS}
         ):
-            entry_kwargs['ninja_url'] = make_ninja_url(name, base_item, ninja_category)
+            entry_kwargs['ninja_url'] = make_ninja_url(league, name, base_item, ninja_category)
 
         if tradable:
-            entry_kwargs['trade_url'] = automake_trade_url(ninja_category, name, base_item=base_item)
+            entry_kwargs['trade_url'] = automake_trade_url(league, ninja_category, name, base_item=base_item)
 
         yield Entry(**entry_kwargs)
 

@@ -50,3 +50,11 @@ class NinjaCategory(Enum):
     BEASTS = 'Beasts'
     ESSENCES = 'Essences'
     VIALS = 'Vials'
+
+
+@unique
+class LeagueType(Enum):
+    CHALLENGE = 'challenge'
+    CHALLENGE_HARDCORE = 'challengehc'
+    STANDARD = 'standard'
+    HARDCORE = 'hardcore'
