@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, shell, globalShortcut, dialog } = require('electron')
 const path = require('node:path')
 const tray = require('./tray')
+const { userSettings } = require('./storage')
 
 app.commandLine.appendSwitch('wm-window-animations-disabled')
 
@@ -64,6 +65,7 @@ app.whenReady().then(() => {
     ipcMain.handle('externalUrlOpen', (event, url) => shell.openExternal(url))
     ipcMain.handle('panic', (event, msg) => panic(window, msg))
     ipcMain.handle('hideWindow', () => window.hide())
+    ipcMain.handle('getSelectedLeague', () => userSettings.get('league'))
 
     const shortcut = 'CommandOrControl+Shift+P'
     const ret = globalShortcut.register(shortcut, () => toggleWindowVisibility(window))

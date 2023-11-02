@@ -1,6 +1,10 @@
+import argparse
 import dataclasses
+import enum
 import logging
+import string
 import urllib.parse
+from typing import Any
 
 import humanize
 import requests
@@ -54,3 +58,49 @@ def make_poedb_url(item_name: str) -> URL:
 def slugify(text: str) -> str:
     text = text.replace("'", '').replace(' ', '-')
     return text.lower()
+
+
+class EnumAction(argparse.Action):
+    """
+    Argparse action for handling Enums.
+
+    Courtesy by Tim on StackOverflow: https://stackoverflow.com/a/60750535
+    Slight adaptations to satisfy the project's linter.
+    """
+    def __init__(self, **kwargs) -> None:
+        # Pop off the type value
+        enum_type = kwargs.pop('type', None)
+
+        # Ensure an Enum subclass is provided
+        if enum_type is None:
+            msg = 'type must be assigned an Enum when using EnumAction'
+            raise ValueError(msg)
+        if not issubclass(enum_type, enum.Enum):
+            msg = 'type must be an Enum when using EnumAction'
+            raise TypeError(msg)
+
+        # Generate choices from the Enum
+        kwargs.setdefault('choices', tuple(e.value for e in enum_type))
+
+        super().__init__(**kwargs)
+
+        self._enum = enum_type
+
+    def __call__(
+            self,
+            parser: argparse.ArgumentParser,
+            namespace: argparse.Namespace,
+            values: Any,  # noqa: ANN401
+            option_string: str | None = None,
+        ) -> None:
+        # Convert value back into an Enum
+        value = self._enum(values)
+        setattr(namespace, self.dest, value)
+
+
+def is_format_string(str_: str) -> bool:
+    """
+    Checks if a string is a format string, e.g. "Hello {name}".
+    """
+    fmter = string.Formatter()
+    return next(fmter.parse(str_))[1] is not None
