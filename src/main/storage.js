@@ -17,6 +17,7 @@ const userSettingsSchema = {
         type: 'string',
         enum: ['challenge', 'challengehc', 'standard', 'hardcore'],
     },
+    paletteShortcut: { type: 'string' },
 }
 
 const userSettings = new Store({ userSettingsSchema })
@@ -27,6 +28,7 @@ setdefault(userSettings, 'tradeEnabled', true)
 setdefault(userSettings, 'tftEnabled', false)
 setdefault(userSettings, 'toolsEnabled', true)
 setdefault(userSettings, 'league', 'challenge')
+setdefault(userSettings, 'paletteShortcut', 'CommandOrControl+P')
 userSettings.getEnabledResultTypes = () => {
     const enabled = []
     if (userSettings.get('wikiEnabled')) enabled.push('wiki')
