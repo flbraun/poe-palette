@@ -57,16 +57,24 @@ app.whenReady().then(() => {
     console.log(`Running Chromium v${process.versions.chrome}`)
     console.log(`Screen dimensions: ${width}x${height} px`)
 
+    // create main window and tray
     const window = createWindow(width, height)
-    tray.createTray(() => toggleWindowVisibility(window))
+    tray.createTray(() => toggleWindowVisibility(window), window)
     // hide the palette window when it loses focus
     window.on('blur', window.hide)
 
+    // register IPC handlers for messages _from_ the renderer
     ipcMain.handle('externalUrlOpen', (event, url) => shell.openExternal(url))
     ipcMain.handle('panic', (event, msg) => panic(window, msg))
     ipcMain.handle('hideWindow', () => window.hide())
-    ipcMain.handle('getSelectedLeague', () => userSettings.get('league'))
 
+    // once the window has finished loading, send the current user settings to the renderer
+    window.webContents.once('did-finish-load', () => {
+        window.webContents.send('enabledResultTypesChanged', userSettings.getEnabledResultTypes())
+        window.webContents.send('leagueChanged', userSettings.get('league'))
+    })
+
+    // register shortcuts
     const shortcut = 'CommandOrControl+P'
     const ret = globalShortcut.register(shortcut, () => toggleWindowVisibility(window))
     if (!ret) {

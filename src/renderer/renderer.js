@@ -29,4 +29,4 @@ const init_minisearch = async (league) => {
     console.log(`search index size: ${POEPALETTE_MINISEARCH.termCount}`)
 }
 
-window.electronAPI.getSelectedLeague().then((league) => init_minisearch(league))
+window.electronAPI.onLeagueChanged((event, league) => init_minisearch(league))
