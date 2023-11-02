@@ -75,7 +75,7 @@ app.whenReady().then(() => {
     })
 
     // register shortcuts
-    const shortcut = 'CommandOrControl+P'
+    const shortcut = userSettings.get('paletteShortcut')
     const ret = globalShortcut.register(shortcut, () => toggleWindowVisibility(window))
     if (!ret) {
         panic(window, `Failed to register shortcut: ${shortcut}`)
