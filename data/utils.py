@@ -41,6 +41,7 @@ class Entry:
     poedb_url: URL | None = None
     ninja_url: URL | None = None
     trade_url: URL | None = None
+    tft_url: URL | None = None
     tool_url: URL | None = None
 
 
