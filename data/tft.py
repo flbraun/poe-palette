@@ -65,4 +65,4 @@ def get_tft_channels(league_type: LeagueType) -> Generator[Entry, None, None]:
 
 
 def make_tft_url(server_id: str, channel_id: str) -> URL:
-    return f'https://discordapp.com/channels/{server_id}/{channel_id}'
+    return f'discord://-/channels/{server_id}/{channel_id}'
