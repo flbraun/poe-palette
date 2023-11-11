@@ -6,4 +6,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     hideWindow: () => ipcRenderer.invoke('hideWindow'),
     onLeagueChanged: (callback) => ipcRenderer.on('leagueChanged', callback),
     onEnabledResultTypesChanged: (callback) => ipcRenderer.on('enabledResultTypesChanged', callback),
+    onFocusGained: (callback) => ipcRenderer.on('focusGained', callback),
 })

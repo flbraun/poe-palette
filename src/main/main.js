@@ -82,4 +82,9 @@ app.whenReady().then(() => {
     }
 })
 
+// propagate focus events to the respective renderer
+app.on('browser-window-focus', (event, window) => {
+    window.webContents.send('focusGained')
+})
+
 app.on('will-quit', () => globalShortcut.unregisterAll())
