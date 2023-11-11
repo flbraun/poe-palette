@@ -35,6 +35,11 @@ const makePalette = (searchInput, resultlist) => {
         enabledResultTypes = resultTypes
     })
 
+    window.electronAPI.onFocusGained(() => {
+        searchInput.focus()
+        searchInput.setSelectionRange(0, searchInput.value.length)
+    })
+
     const addResultNode = (icon, text, target) => {
         const image = document.createElement('img')
         image.src = icon
