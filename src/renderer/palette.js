@@ -57,22 +57,29 @@ const makePalette = (searchInput, resultlist) => {
     }
 
     const navigateResult = (incr) => {
+        if (![-1, 1].includes(incr)) {
+            throw new Error('incr must be -1 or 1')
+        }
+
         const resultlen = resultlist.children.length
         if (resultlen == 0) {
             return // there is nothing to navigate through
         }
-        const current = Array.prototype.indexOf.call(resultlist.children, selectedResult)
+        const currentIndex = Array.prototype.indexOf.call(resultlist.children, selectedResult)
 
-        let next = current + incr
-        // honor bounds of resultlist
-        if (next < 0) next = 0
-        if (next > resultlen - 1) next = resultlen - 1
-        // todo: when out of bounds, wrap to top/bottom
+        // determine new index to highlight
+        let newIndex = currentIndex + incr
+        // when going out of bounds, wrap around
+        if (newIndex < 0) {
+            newIndex = resultlen - 1
+        } else if (newIndex >= resultlen) {
+            newIndex = 0
+        }
 
         if (selectedResult !== null) {
             selectedResult.classList.remove('focus')
         }
-        const nextElem = resultlist.childNodes.item(next)
+        const nextElem = resultlist.childNodes.item(newIndex)
         nextElem.classList.add('focus')
         selectedResult = nextElem
     }
