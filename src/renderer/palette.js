@@ -81,6 +81,7 @@ const makePalette = (searchInput, resultlist) => {
     searchInput.addEventListener('input', () => {
         // clear previous search results
         resultlist.replaceChildren()
+        selectedResult = null
 
         // prepare search
         let term = searchInput.value.trim()
