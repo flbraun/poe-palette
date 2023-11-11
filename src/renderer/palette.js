@@ -54,7 +54,6 @@ const makePalette = (searchInput, resultlist) => {
         result.onclick = (event) => { event.preventDefault(); window.electronAPI.externalUrlOpen(target) }
 
         resultlist.appendChild(result)
-        /* todo highlight terms */
     }
 
     const navigateResult = (incr) => {
