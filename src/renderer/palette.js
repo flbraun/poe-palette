@@ -159,7 +159,7 @@ const makePalette = (searchInput, resultlist) => {
                     addResultNode(ICONS.TFT, r.display_text, r.tft_url)
                 }
                 if (
-                    enabledResultTypes.includes('tool')
+                    enabledResultTypes.includes('tools')
                     && [null, 'tool'].includes(targetedSearch)
                     && Object.prototype.hasOwnProperty.call(r, 'tool_url')
                     && r.tool_url !== null
