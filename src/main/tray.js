@@ -101,8 +101,6 @@ exports.createTray = (leftClickCallback, window) => {
             },
         },
         { type: 'separator' },
-        { label: 'Toggle visibility', click: leftClickCallback },
-        { type: 'separator' },
         { label: 'Quit', role: 'quit' },
     ])
     tray.setContextMenu(contextMenu)
