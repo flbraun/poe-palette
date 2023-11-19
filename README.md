@@ -4,7 +4,6 @@ Screen workers love command palettes to quickly access actions in their frequent
 ![demo](https://github.com/flbraun/poe-palette/raw/master/.github/demo.gif)
 
 ## Capabilities
-PoE Palette currently has first-class support for the following tools:
 - Search for ingame items in the [community wiki](https://www.poewiki.net)
 - Search for ingame items in [PoEDB](https://poedb.tw) (opt-in)
 - Search for ingame items in [poe.ninja](https://poe.ninja)
@@ -19,7 +18,7 @@ PoE Palette also knows about a hand-curated list of other smaller tools and webs
 2. Extract the archive and run the `poe-palette.exe` you will find inside.
    On the first start you will probably be warned that this program will put your computer at risk. This is because the application does not digitally sign its code. As long as you download the official release from the aforementioned release page it is still safe to run!
    Click "More info", then "Run anyway" to proceed.
-3. PoE Pallet will now start in the background and appear in your system tray.
+3. PoE Palette will now start in the background and appear in your system tray.
 
 ## Configuration
 You can configure the app by right clicking its tray icon (the Mirror of Kalandra).
