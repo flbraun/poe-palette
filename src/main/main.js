@@ -2,8 +2,14 @@ const { app, BrowserWindow, ipcMain, shell, globalShortcut, dialog } = require('
 const path = require('node:path')
 const tray = require('./tray')
 const { userSettings } = require('./storage')
+const { checkForUpdates } = require('./update')
 
 app.commandLine.appendSwitch('wm-window-animations-disabled')
+
+// check for updates in background
+if (app.isPackaged) {
+    checkForUpdates()
+}
 
 const createWindow = (width, height) => {
     const win = new BrowserWindow({
