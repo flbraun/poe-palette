@@ -60,7 +60,7 @@ bulk_trade_tokens: dict[str, str] = {
     'Blessing of Uul-Netol': 'blessing-uul-netol',
     'Blessing of Chayula': 'blessing-chayula',
     # Exotic Currency
-    'Orb od Dominance': 'mavens-orb',
+    'Orb of Dominance': 'mavens-orb',
     'Wild Crystallised Lifeforce': 'wild-lifeforce',
     'Vivid Crystallised Lifeforce': 'vivid-lifeforce',
     'Primal Crystallised Lifeforce': 'primal-lifeforce',
