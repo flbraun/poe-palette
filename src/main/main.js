@@ -3,6 +3,7 @@ const path = require('node:path')
 const tray = require('./tray')
 const { userSettings } = require('./storage')
 const { checkForUpdates } = require('./update')
+const { getItemNameFromGame } = require('./clipboard')
 
 app.commandLine.appendSwitch('wm-window-animations-disabled')
 
@@ -57,11 +58,13 @@ app.whenReady().then(() => {
     const primaryDisplay = screen.getPrimaryDisplay()
     const { width, height } = primaryDisplay.workAreaSize
 
+    console.log('\n----------------------------------------')
     console.log(`PoE Palette v${app.getVersion()}`)
     console.log(`Running Node v${process.versions.node}`)
     console.log(`Running Electron v${process.versions.electron}`)
     console.log(`Running Chromium v${process.versions.chrome}`)
     console.log(`Screen dimensions: ${width}x${height} px`)
+    console.log('----------------------------------------')
 
     // create main window and tray
     const window = createWindow(width, height)
@@ -81,11 +84,33 @@ app.whenReady().then(() => {
     })
 
     // register shortcuts
-    const shortcut = userSettings.get('paletteShortcut')
-    const ret = globalShortcut.register(shortcut, () => toggleWindowVisibility(window))
-    if (!ret) {
-        panic(window, `Failed to register shortcut: ${shortcut}`)
-    }
+    const shortcuts = new Map([ // shortcut => callback
+        [
+            userSettings.get('paletteShortcut'),
+            () => toggleWindowVisibility(window),
+        ],
+        [
+            userSettings.get('itemOnPaletteShortcut'),
+            () => {
+                getItemNameFromGame()
+                    .then((itemName) => {
+                        if (itemName !== null) {
+                            window.webContents.send('itemOnPalette', itemName)
+                            toggleWindowVisibility(window)
+                        }
+                    })
+                    .catch((err) => console.error(err))
+            },
+        ],
+    ])
+    shortcuts.forEach((value, key) => {
+        const ret = globalShortcut.register(key, value)
+        if (!ret) {
+            panic(window, `Failed to register shortcut: ${key}`)
+        }
+    })
+
+    console.log('\nPoE Palette is ready.\n')
 })
 
 // propagate focus events to the respective renderer

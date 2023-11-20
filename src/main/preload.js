@@ -7,4 +7,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onLeagueChanged: (callback) => ipcRenderer.on('leagueChanged', callback),
     onEnabledResultTypesChanged: (callback) => ipcRenderer.on('enabledResultTypesChanged', callback),
     onFocusGained: (callback) => ipcRenderer.on('focusGained', callback),
+    onItemOnPalette: (callback) => ipcRenderer.on('itemOnPalette', callback),
 })

@@ -4,10 +4,10 @@ Screen workers love command palettes to quickly access actions in their frequent
 ![demo](https://github.com/flbraun/poe-palette/raw/master/.github/demo.gif)
 
 ## Capabilities
-- Search for ingame items in the [community wiki](https://www.poewiki.net)
-- Search for ingame items in [PoEDB](https://poedb.tw) (opt-in)
-- Search for ingame items in [poe.ninja](https://poe.ninja)
-- Open the [official trade site](https://www.pathofexile.com/trade) for an ingame item; uses the [bulk item exchange](https://www.pathofexile.com/trade/exchange) for suitable items (e.g. currency, scarabs)
+- Search for items in the [community wiki](https://www.poewiki.net)
+- Search for items in [PoEDB](https://poedb.tw) (opt-in)
+- Search for items in [poe.ninja](https://poe.ninja)
+- Open the [official trade site](https://www.pathofexile.com/trade) for an item; uses the [bulk item exchange](https://www.pathofexile.com/trade/exchange) when appropriate (e.g. for currency, scarabs)
 - Search and open channels of [The Forbidden Trove](https://forbiddentrove.com) Discord server (opt-in; only desktop client supported)
 - Open various sites of [PoeStack](https://poestack.com) (e.g. TFT Bulk Tool)
 
@@ -39,14 +39,17 @@ The available search prefixes are `wiki`, `poedb`, `ninja`, `trade`, `tft` and `
 
 Please note that prefixed searches for resources disabled in the configuration will not work!
 
+### Opening the palette for an ingame item
+You may also hover over an item in the game and press the shortcut `Ctrl+Shift+P`. The palette will then open prefilled with the item's name. This allows for quickly opening that item in an external resource, e.g. poe.ninja.
+
 ## FAQ
 #### Search results don't show a PoE Ninja result for my item!
 PoE Ninja does not list _every_ item in the game because they pull their data from GGG's public stash API. So, if nobody lists a worthless or exceedingly rare item it does not appear on PoE Ninja, and consequently PoE Palette will not show results for it.
 If your item is actually listed on [poe.ninja](https://poe.ninja) please [open an issue](https://github.com/flbraun/poe-palette/issues/new/choose).
 
-#### How can I change the palette shortcut?
-You are able to change the shortcut, but there currently is no UI for it. You can change it manually by editing poe-palette's config file with a text editor (e.g. Notepad).
-The config file is located at `%APPDATA&\poe-palette\config.json`. **Please exit poe-palette before modifying this file.**
+#### How can I change the palette shortcuts?
+You are able to change the shortcuts for both toggling the palette and the ingame item search, but there currently is no UI for it. You can change them manually by editing poe-palette's config file with a text editor (e.g. Notepad) though.
+The config file is located at `%APPDATA&\poe-palette\config.json`. **Please exit PoE Palette before modifying this file.**
 Check the [official Electron documentation](https://www.electronjs.org/docs/latest/api/accelerator#available-modifiers) for available key codes and modifiers.
 
 ## Contributing
