@@ -40,6 +40,11 @@ const makePalette = (searchInput, resultlist) => {
         searchInput.setSelectionRange(0, searchInput.value.length)
     })
 
+    window.electronAPI.onItemOnPalette((event, itemName) => {
+        searchInput.value = itemName
+        searchInput.dispatchEvent(new Event('input')) // trigger search
+    })
+
     const addResultNode = (icon, text, target) => {
         const image = document.createElement('img')
         image.src = icon

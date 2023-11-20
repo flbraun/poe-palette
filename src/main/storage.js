@@ -18,6 +18,7 @@ const userSettingsSchema = {
         enum: ['challenge', 'challengehc', 'standard', 'hardcore'],
     },
     paletteShortcut: { type: 'string' },
+    itemOnPaletteShortcut: { type: 'string' },
 }
 
 const userSettings = new Store({ userSettingsSchema })
@@ -29,6 +30,7 @@ setdefault(userSettings, 'tftEnabled', false)
 setdefault(userSettings, 'toolsEnabled', true)
 setdefault(userSettings, 'league', 'challenge')
 setdefault(userSettings, 'paletteShortcut', 'CommandOrControl+P')
+setdefault(userSettings, 'itemOnPaletteShortcut', 'CommandOrControl+Shift+P')
 userSettings.getEnabledResultTypes = () => {
     const enabled = []
     if (userSettings.get('wikiEnabled')) enabled.push('wiki')
