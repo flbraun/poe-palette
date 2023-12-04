@@ -52,6 +52,9 @@ You are able to change the shortcuts for both toggling the palette and the ingam
 The config file is located at `%APPDATA&\poe-palette\config.json`. **Please exit PoE Palette before modifying this file.**
 Check the [official Electron documentation](https://www.electronjs.org/docs/latest/api/accelerator#available-modifiers) for available key codes and modifiers.
 
+#### It's league start and the tool isn't working properly!
+For PoE Palette to work correctly, all connected tools need to make their adaptations for the new league first. Some tools handle this more graceful than others. On top of that there may be changes required to PoE Palette itself. All of that takes time, and the developers likely want to play the new league just as much as you want. As a general guideline, expect everything to be ironed out at the end of the first week.
+
 ## Contributing
 Pull requests are generally welcome! If you want to add new features or substantially change an existing one, please [open an issue](https://github.com/flbraun/poe-palette/issues/new/choose) beforehand so we can align on the required changes.
 
