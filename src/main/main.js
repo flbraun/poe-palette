@@ -25,6 +25,9 @@ const createWindow = (width, height) => {
         skipTaskbar: true,
     })
     win.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'))
+    
+    //needed to correct taskbar visibility
+    win.setAlwaysOnTop(true, "pop-up-menu");
 
     // automatically open dev tools when in dev mode
     if (!app.isPackaged) win.webContents.openDevTools()
@@ -57,6 +60,9 @@ app.whenReady().then(() => {
     const { screen } = require('electron')
     const primaryDisplay = screen.getPrimaryDisplay()
     const { width, height } = primaryDisplay.workAreaSize
+    //location of windows-taskbar-fix.js for fixing the taskbar visibility issue
+    const {createOverlayFixWindow} = require('./module/windows-taskbar-fix')
+
 
     console.log('\n----------------------------------------')
     console.log(`PoE Palette v${app.getVersion()}`)
@@ -69,6 +75,10 @@ app.whenReady().then(() => {
     // create main window and tray
     const window = createWindow(width, height)
     tray.createTray(() => toggleWindowVisibility(window), window)
+
+    //create hidden & non-interactive window to fix the taskbar showing when toggling visibility
+    createOverlayFixWindow();
+
     // hide the palette window when it loses focus
     window.on('blur', window.hide)
 
