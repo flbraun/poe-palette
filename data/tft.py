@@ -28,13 +28,13 @@ def get_tft_channels(league_type: LeagueType) -> Generator[Entry, None, None]:
 
     if league_type == LeagueType.CHALLENGE:
         container_phrases = (
-            'Ancestors SC Services',
-            'Ancestors SC Trades',
-            'Ancestors SC Bulk WTB',
-            'Ancestors SC Bulk WTS',
+            'Affliction SC Services',
+            'Affliction SC Trades',
+            'Affliction SC Bulk WTB',
+            'Affliction SC Bulk WTS',
         )
     elif league_type == LeagueType.CHALLENGE_HARDCORE:
-        container_phrases = ('Ancestors Hardcore',)
+        container_phrases = ('Affliction Hardcore',)
     elif league_type == LeagueType.STANDARD:
         container_phrases = ('Standard Services', 'Standard Trades', 'Standard Bulk')
     elif league_type == LeagueType.HARDCORE:
