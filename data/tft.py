@@ -13,11 +13,12 @@ from .utils import Entry, LoggedRequestsSession
 def get_channel_list(server_id: str) -> list[dict]:
     session = LoggedRequestsSession()
 
+    url = f'https://discordapp.com/api/v9/guilds/{server_id}/channels'
     headers = {
         'authorization': os.environ['DISCORD_TOKEN'],
     }
-    res = session.get(f'https://discordapp.com/api/v9/guilds/{server_id}/channels', headers=headers)
-    assert res.status_code == http.HTTPStatus.OK, res.status_code
+    res = session.get(url, headers=headers)
+    assert res.status_code == http.HTTPStatus.OK, f'{res.status_code} {url}'
 
     return res.json()
 

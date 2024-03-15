@@ -126,7 +126,7 @@ def get_ninja_index(league: League) -> NinjaIndex:
         url = url_template.format(league=league.title)
 
         res = session.get(url)
-        assert res.status_code == http.HTTPStatus.OK
+        assert res.status_code == http.HTTPStatus.OK, f'{res.status_code} {url}'
 
         res_parsed = res.json()
         index[category] = {line[response_attr] for line in res_parsed['lines']}
