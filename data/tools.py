@@ -32,7 +32,6 @@ tool_data = [
     {'display_text': 'Craft of Exile', 'tool_url': 'https://www.craftofexile.com/'},
     {'display_text': 'PoEDB', 'tool_url': 'https://poedb.tw/us'},
     {'display_text': 'PoEDB - Modifiers', 'tool_url': 'https://poedb.tw/us/Modifiers'},
-    {'display_text': 'PoE Antiquary', 'tool_url': 'https://poe-antiquary.xyz'},
     {'display_text': 'Vorici Chromatic Calculator', 'tool_url': 'https://siveran.github.io/calc.html'},
     {'display_text': 'Path of Exile Regex', 'tool_url': 'https://poe.re/'},
     {'display_text': 'GGG Tracker', 'tool_url': 'https://gggtracker.com/'},

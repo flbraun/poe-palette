@@ -2,7 +2,16 @@
 
 const POEPALETTE_MINISEARCH = new MiniSearch({
     fields: ['display_text'],
-    storeFields: ['display_text', 'wiki_url', 'poedb_url', 'ninja_url', 'trade_url', 'tft_url', 'tool_url'],
+    storeFields: [
+        'display_text',
+        'wiki_url',
+        'poedb_url',
+        'ninja_url',
+        'trade_url',
+        'tft_url',
+        'antiquary_url',
+        'tool_url',
+    ],
 })
 
 let currentLeague

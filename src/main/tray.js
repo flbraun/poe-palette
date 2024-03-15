@@ -56,6 +56,15 @@ exports.createTray = (leftClickCallback, window) => {
         },
         {
             type: 'checkbox',
+            label: 'PoE Antiquary',
+            checked: userSettings.get('antiquaryEnabled'),
+            click: (menuItem) => {
+                userSettings.set('antiquaryEnabled', menuItem.checked)
+                window.webContents.send('enabledResultTypesChanged', userSettings.getEnabledResultTypes())
+            },
+        },
+        {
+            type: 'checkbox',
             label: 'Tools',
             checked: userSettings.get('toolsEnabled'),
             click: (menuItem) => {
