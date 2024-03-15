@@ -20,8 +20,9 @@ class League:
 def get_leagues() -> dict[LeagueType, League]:
     session = LoggedRequestsSession()
 
-    res = session.get('https://poe.ninja/api/data/getindexstate')
-    assert res.status_code == http.HTTPStatus.OK
+    url = 'https://poe.ninja/api/data/getindexstate'
+    res = session.get(url)
+    assert res.status_code == http.HTTPStatus.OK, f'{res.status_code} {url}'
 
     res_parsed = res.json()
 
