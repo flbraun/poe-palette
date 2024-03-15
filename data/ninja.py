@@ -42,7 +42,6 @@ ninja_api_endpoint_for_category: dict[NinjaCategory, tuple[str, str]] = {  # (ur
     NinjaCategory.BASE_TYPES: ('https://poe.ninja/api/data/itemoverview?league={league}&type=BaseType', 'name'),
     NinjaCategory.FOSSILS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Fossil', 'name'),
     NinjaCategory.RESONATORS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Resonator', 'name'),
-    NinjaCategory.HELMET_ENCHANTS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=HelmetEnchant', 'name'),  # noqa: E501
     NinjaCategory.BEASTS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Beast', 'name'),
     NinjaCategory.ESSENCES: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Essence', 'name'),
     NinjaCategory.VIALS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Vial', 'name'),
@@ -81,7 +80,6 @@ ninja_url_for_category: dict[NinjaCategory, tuple[str, bool]] = {  # (url_templa
     NinjaCategory.BASE_TYPES: ('https://poe.ninja/economy/{league}/base-types', True),
     NinjaCategory.FOSSILS: ('https://poe.ninja/economy/{league}/fossils', False),
     NinjaCategory.RESONATORS: ('https://poe.ninja/economy/{league}/resonators', False),
-    NinjaCategory.HELMET_ENCHANTS: ('https://poe.ninja/economy/{league}/helmet-enchants', True),
     NinjaCategory.BEASTS: ('https://poe.ninja/economy/{league}/beasts', False),
     NinjaCategory.ESSENCES: ('https://poe.ninja/economy/{league}/essences', False),
     NinjaCategory.VIALS: ('https://poe.ninja/economy/{league}/vials', False),

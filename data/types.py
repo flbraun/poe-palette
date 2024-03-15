@@ -46,7 +46,6 @@ class NinjaCategory(Enum):
     BASE_TYPES = 'Base Types'
     FOSSILS = 'Fossils'
     RESONATORS = 'Resonators'
-    HELMET_ENCHANTS = 'Helmet Enchants'
     BEASTS = 'Beasts'
     ESSENCES = 'Essences'
     VIALS = 'Vials'
