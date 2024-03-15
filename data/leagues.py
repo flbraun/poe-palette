@@ -5,7 +5,7 @@ import http
 from tabulate import tabulate
 
 from .types import LeagueType
-from .utils import LoggedRequestsSession, slugify
+from .utils import DefaultHTTPSession, slugify
 
 
 @dataclasses.dataclass(frozen=True)
@@ -18,7 +18,7 @@ class League:
 
 @functools.cache
 def get_leagues() -> dict[LeagueType, League]:
-    session = LoggedRequestsSession()
+    session = DefaultHTTPSession()
 
     url = 'https://poe.ninja/api/data/getindexstate'
     res = session.get(url)

@@ -6,7 +6,7 @@ from tabulate import tabulate
 
 from .leagues import League
 from .types import URL, NinjaCategory
-from .utils import LoggedRequestsSession
+from .utils import DefaultHTTPSession
 
 
 ninja_api_endpoint_for_category: dict[NinjaCategory, tuple[str, str]] = {  # (url_template, response_key)
@@ -111,19 +111,17 @@ class NinjaIndex:
 
 
 @functools.cache
-def get_ninja_index(league: League) -> NinjaIndex:
+def get_ninja_index(ninja_session: DefaultHTTPSession, league: League) -> NinjaIndex:
     """
     Downloads current data from ninja and makes it available as a sort-of index.
     """
-    session = LoggedRequestsSession()
-
     index = {}
 
     for category, endpoint_info in ninja_api_endpoint_for_category.items():
         url_template, response_attr = endpoint_info
         url = url_template.format(league=league.title)
 
-        res = session.get(url)
+        res = ninja_session.get(url)
         assert res.status_code == http.HTTPStatus.OK, f'{res.status_code} {url}'
 
         res_parsed = res.json()
