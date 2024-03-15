@@ -263,7 +263,7 @@ def get_items(league: League) -> Generator[Entry, None, None]:
 
         if (
             ninja_category is not None and
-            ninja_category not in {NinjaCategory.CLUSTER_JEWELS, NinjaCategory.HELMET_ENCHANTS}
+            ninja_category != NinjaCategory.CLUSTER_JEWELS
         ):
             entry_kwargs['ninja_url'] = make_ninja_url(league, name, base_item, ninja_category)
 
