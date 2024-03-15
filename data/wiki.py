@@ -9,17 +9,15 @@ from .leagues import League
 from .ninja import NinjaCategory, get_ninja_index, make_ninja_url
 from .trade import automake_trade_url
 from .types import Rarity
-from .utils import Entry, LoggedRequestsSession, make_poedb_url, make_wiki_url
+from .utils import DefaultHTTPSession, Entry, make_poedb_url, make_wiki_url
 
 
-def iter_wiki_query(**cargo_params: dict[str, str]) -> Generator[dict, None, None]:
+def iter_wiki_query(wiki_session: DefaultHTTPSession, **cargo_params: dict[str, str]) -> Generator[dict, None, None]:
     page_size = 500
     offset = 0
 
-    session = LoggedRequestsSession()
-
     while True:
-        res = session.get(
+        res = wiki_session.get(
             'https://www.poewiki.net/w/api.php',
             params={
                 'action': 'cargoquery',
@@ -226,51 +224,52 @@ KNOWN_NINJA_UNLISTED_CLASSES: set[str] = {  # wiki item classes that are never l
 
 
 def get_items(league: League) -> Generator[Entry, None, None]:
-    ninja_unknown = []
-
-    ninja_index = get_ninja_index(league)
-
-    for item in iter_wiki_query(
-        tables='items',
-        fields='name,base_item,class,rarity_id,cannot_be_traded_or_modified',
-        where='drop_enabled=true AND class != "Hideout Decoration" AND class != "Cosmetic Item" AND class != "Quest Item"',  # noqa: E501
-        group_by='name',
+    with (
+        DefaultHTTPSession() as wiki_session,
+        DefaultHTTPSession() as ninja_session,
     ):
-        # unpack result fields
-        name, base_item, class_, rarity, tradable = (
-            item['title']['name'],
-            item['title']['base item'],
-            item['title']['class'],
-            Rarity(item['title']['rarity id']),
-            not bool(int(item['title']['cannot be traded or modified'])),
-        )
+        ninja_unknown = []
+        ninja_index = get_ninja_index(ninja_session, league)
 
-        if name in WIKI_ITEM_BLACKLIST:
-            continue
-
-        ninja_category = ninja_index.match(name)
-        is_known = name in KNOWN_NINJA_UNLISTED_NAMES or class_ in KNOWN_NINJA_UNLISTED_CLASSES
-        if ninja_category is None and not is_known:
-            ninja_unknown.append((name, base_item, class_, rarity.value))
-
-        display_text = name if ninja_category is not NinjaCategory.UNIQUE_MAPS else f'{name} {base_item}'
-
-        entry_kwargs = {
-            'display_text': display_text,
-            'wiki_url': make_wiki_url(name),
-            'poedb_url': make_poedb_url(name),
-        }
-
-        if (
-            ninja_category is not None and
-            ninja_category != NinjaCategory.CLUSTER_JEWELS
+        for item in iter_wiki_query(
+            wiki_session,
+            tables='items',
+            fields='name,base_item,class,rarity_id,cannot_be_traded_or_modified',
+            where='drop_enabled=true AND class != "Hideout Decoration" AND class != "Cosmetic Item" AND class != "Quest Item"',  # noqa: E501
+            group_by='name',
         ):
-            entry_kwargs['ninja_url'] = make_ninja_url(league, name, base_item, ninja_category)
+            # unpack result fields
+            name, base_item, class_, rarity, tradable = (
+                item['title']['name'],
+                item['title']['base item'],
+                item['title']['class'],
+                Rarity(item['title']['rarity id']),
+                not bool(int(item['title']['cannot be traded or modified'])),
+            )
 
-        if tradable:
-            entry_kwargs['trade_url'] = automake_trade_url(league, ninja_category, name, base_item=base_item)
+            if name in WIKI_ITEM_BLACKLIST:
+                continue
 
-        yield Entry(**entry_kwargs)
+            ninja_category = ninja_index.match(name)
+            is_known = name in KNOWN_NINJA_UNLISTED_NAMES or class_ in KNOWN_NINJA_UNLISTED_CLASSES
+            if ninja_category is None and not is_known:
+                ninja_unknown.append((name, base_item, class_, rarity.value))
+
+            display_text = name if ninja_category is not NinjaCategory.UNIQUE_MAPS else f'{name} {base_item}'
+
+            entry_kwargs = {
+                'display_text': display_text,
+                'wiki_url': make_wiki_url(name),
+                'poedb_url': make_poedb_url(name),
+            }
+
+            if ninja_category is not None and ninja_category != NinjaCategory.CLUSTER_JEWELS:
+                entry_kwargs['ninja_url'] = make_ninja_url(league, name, base_item, ninja_category)
+
+            if tradable:
+                entry_kwargs['trade_url'] = automake_trade_url(league, ninja_category, name, base_item=base_item)
+
+            yield Entry(**entry_kwargs)
 
     print(
         tabulate(

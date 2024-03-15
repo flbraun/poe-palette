@@ -6,12 +6,12 @@ from collections.abc import Generator
 import emoji
 
 from .types import URL, LeagueType
-from .utils import Entry, LoggedRequestsSession
+from .utils import DefaultHTTPSession, Entry
 
 
 @functools.cache
 def get_channel_list(server_id: str) -> list[dict]:
-    session = LoggedRequestsSession()
+    session = DefaultHTTPSession()
 
     url = f'https://discordapp.com/api/v9/guilds/{server_id}/channels'
     headers = {

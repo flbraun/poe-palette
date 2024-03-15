@@ -12,10 +12,19 @@ import requests
 from .types import URL
 
 
-class LoggedRequestsSession(requests.Session):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+class DefaultHTTPSession(requests.Session):
+    """
+    The default HTTP session for this project.
+    Automatically logs requests and response stats, and sets a default user agent so other
+    community services can identify us.
+    """
+    def __init__(
+        self,
+        default_user_agent: str | None = 'PoE Palette Scraper (https://github.com/flbraun/poe-palette)',
+    ) -> None:
+        super().__init__()
 
+        self.default_user_agent = default_user_agent
         self.hooks['response'].append(self.log_response_stats)
 
     @staticmethod
@@ -28,6 +37,13 @@ class LoggedRequestsSession(requests.Session):
             f'{int(r.elapsed.total_seconds() * 1000)}ms',
             humanize.naturalsize(len(r.content), binary=True).replace(' ', ''),
         )
+
+    def request(self, *args, **kwargs) -> requests.Response:
+        if self.default_user_agent is not None:
+            if 'headers' not in kwargs:
+                kwargs['headers'] = {}
+            kwargs['headers'].setdefault('User-Agent', self.default_user_agent)
+        return super().request(*args, **kwargs)
 
 
 @dataclasses.dataclass(frozen=True)
