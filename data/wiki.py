@@ -5,6 +5,7 @@ from collections.abc import Generator
 
 from tabulate import tabulate
 
+from .antiquary import make_antiquary_url
 from .leagues import League
 from .ninja import NinjaCategory, get_ninja_index, make_ninja_url
 from .trade import automake_trade_url
@@ -227,6 +228,7 @@ def get_items(league: League) -> Generator[Entry, None, None]:
     with (
         DefaultHTTPSession() as wiki_session,
         DefaultHTTPSession() as ninja_session,
+        DefaultHTTPSession() as antiquary_session,
     ):
         ninja_unknown = []
         ninja_index = get_ninja_index(ninja_session, league)
@@ -261,6 +263,7 @@ def get_items(league: League) -> Generator[Entry, None, None]:
                 'display_text': display_text,
                 'wiki_url': make_wiki_url(name),
                 'poedb_url': make_poedb_url(name),
+                'antiquary_url': make_antiquary_url(antiquary_session, league, ninja_category, name),
             }
 
             if ninja_category is not None and ninja_category != NinjaCategory.CLUSTER_JEWELS:
