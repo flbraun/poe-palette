@@ -49,7 +49,7 @@ If your item is actually listed on [poe.ninja](https://poe.ninja) please [open a
 
 #### How can I change the palette shortcuts?
 You are able to change the shortcuts for both toggling the palette and the ingame item search, but there currently is no UI for it. You can change them manually by editing poe-palette's config file with a text editor (e.g. Notepad) though.
-The config file is located at `%APPDATA&\poe-palette\config.json`. **Please exit PoE Palette before modifying this file.**
+The config file is located at `%APPDATA%\poe-palette\config.json`. **Please exit PoE Palette before modifying this file.**
 Check the [official Electron documentation](https://www.electronjs.org/docs/latest/api/accelerator#available-modifiers) for available key codes and modifiers.
 
 #### It's league start and the tool isn't working properly!
