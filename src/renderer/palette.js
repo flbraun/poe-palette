@@ -16,7 +16,7 @@ const ICONS = {
     GOTO: '../../assets/goto.png',
 }
 
-const resultTypes = ['wiki', 'poedb', 'ninja', 'trade', 'tft', 'antiquary', 'tool']
+const resultTypes = ['wiki', 'poedb', 'ninja', 'trade', 'tft', 'antiq', 'tool']
 const specialSearchPrefixes = resultTypes.map(e => `${e}:`)
 
 // register click handlers that hide the window when clicking outside of the palette area
@@ -166,7 +166,7 @@ const makePalette = (searchInput, resultlist) => {
                 }
                 if (
                     enabledResultTypes.includes('antiquary')
-                    && [null, 'antiquary'].includes(targetedSearch)
+                    && [null, 'antiq'].includes(targetedSearch)
                     && Object.prototype.hasOwnProperty.call(r, 'antiquary_url')
                     && r.antiquary_url !== null
                 ) {
