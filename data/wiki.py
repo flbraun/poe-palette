@@ -1,9 +1,6 @@
 import http
-import itertools
 import pprint
 from collections.abc import Generator
-
-from tabulate import tabulate
 
 from .antiquary import make_antiquary_url
 from .craftofexile import get_craftofexile_index, make_craftofexile_url
@@ -57,173 +54,6 @@ WIKI_ITEM_BLACKLIST: set[str] = {  # items to completely ignore when importing f
     "Booby Lady's Gloves",
     'His Judgement',  # seems to be in game files, but smells fishy
 }
-KNOWN_NINJA_UNLISTED_NAMES: set[str] = {  # item names that are never listed on ninja
-    # non-armour/weapon base types
-    'Contract: Bunker',
-    'Contract: Laboratory',
-    'Contract: Mansion',
-    'Contract: Prohibited Library',
-    'Contract: Records Office',
-    'Contract: Repository',
-    "Contract: Smuggler's Den",
-    'Contract: Tunnels',
-    'Contract: Underbelly',
-    'Blueprint: Bunker',
-    'Blueprint: Laboratory',
-    'Blueprint: Mansion',
-    'Blueprint: Prohibited Library',
-    'Blueprint: Records Office',
-    'Blueprint: Repository',
-    "Blueprint: Smuggler's Den",
-    'Blueprint: Tunnels',
-    'Blueprint: Underbelly',
-    'Amethyst Flask',
-    'Aquamarine Flask',
-    'Basalt Flask',
-    'Bismuth Flask',
-    'Corundum Flask',
-    'Diamond Flask',
-    'Gold Flask',
-    'Granite Flask',
-    'Iron Flask',
-    'Jade Flask',
-    'Quartz Flask',
-    'Quicksilver Flask',
-    'Ruby Flask',
-    'Sapphire Flask',
-    'Silver Flask',
-    'Stibnite Flask',
-    'Sulphur Flask',
-    'Topaz Flask',
-    'Colossal Life Flask',
-    'Divine Life Flask',
-    'Eternal Life Flask',
-    'Giant Life Flask',
-    'Grand Life Flask',
-    'Greater Life Flask',
-    'Hallowed Life Flask',
-    'Large Life Flask',
-    'Medium Life Flask',
-    'Sacred Life Flask',
-    'Sanctified Life Flask',
-    'Small Life Flask',
-    'Colossal Mana Flask',
-    'Divine Mana Flask',
-    'Eternal Mana Flask',
-    'Giant Mana Flask',
-    'Grand Mana Flask',
-    'Greater Mana Flask',
-    'Hallowed Mana Flask',
-    'Large Mana Flask',
-    'Medium Mana Flask',
-    'Sacred Mana Flask',
-    'Sanctified Mana Flask',
-    'Small Mana Flask',
-    'Colossal Hybrid Flask',
-    'Hallowed Hybrid Flask',
-    'Large Hybrid Flask',
-    'Medium Hybrid Flask',
-    'Sacred Hybrid Flask',
-    'Small Hybrid Flask',
-    'Candlestick Relic',
-    'Censer Relic',
-    'Coffer Relic',
-    'Papyrus Relic',
-    'Processional Relic',
-    'Tome Relic',
-    'Urn Relic',
-    'Large Cluster Jewel',
-    'Medium Cluster Jewel',
-    'Small Clorster Jewel',
-    'Small Cluster Jewel',
-    'Breach Ring',  # always drops rare and corrupted
-    'Ashscale Talisman',  # always drops rare and corrupted
-    'Avian Twins Talisman',  # always drops rare and corrupted
-    'Black Maw Talisman',  # always drops rare and corrupted
-    'Bonespire Talisman',  # always drops rare and corrupted
-    'Breakrib Talisman',  # always drops rare and corrupted
-    'Chrysalis Talisman',  # always drops rare and corrupted
-    'Clutching Talisman',  # always drops rare and corrupted
-    'Deadhand Talisman',  # always drops rare and corrupted
-    'Deep One Talisman',  # always drops rare and corrupted
-    'Fangjaw Talisman',  # always drops rare and corrupted
-    'Hexclaw Talisman',  # always drops rare and corrupted
-    'Horned Talisman',  # always drops rare and corrupted
-    'Lone Antler Talisman',  # always drops rare and corrupted
-    'Longtooth Talisman',  # always drops rare and corrupted
-    'Mandible Talisman',  # always drops rare and corrupted
-    'Monkey Paw Talisman',  # always drops rare and corrupted
-    'Monkey Twins Talisman',  # always drops rare and corrupted
-    'Primal Skull Talisman',  # always drops rare and corrupted
-    'Rot Head Talisman',  # always drops rare and corrupted
-    'Rotfeather Talisman',  # always drops rare and corrupted
-    'Spinefuse Talisman',  # always drops rare and corrupted
-    'Splitnewt Talisman',  # always drops rare and corrupted
-    'Three Hands Talisman',  # always drops rare and corrupted
-    'Three Rat Talisman',  # always drops rare and corrupted
-    'Undying Flesh Talisman',  # always drops rare and corrupted
-    'Wereclaw Talisman',  # always drops rare and corrupted
-    'Writhing Talisman',  # always drops rare and corrupted
-    "Thief's Trinket",  # always drops rare and corrupted
-    # currency (mostly shards)
-    'Chaos Orb',  # gold standard, so will never be listed
-    "Facetor's Lens",  # price varies by stored experience
-    'Alchemy Shard',
-    'Alteration Shard',
-    'Ancient Shard',
-    'Bestiary Orb',
-    'Binding Shard',
-    'Chaos Shard',
-    "Engineer's Shard",
-    'Horizon Shard',
-    'Imprint',
-    'Imprinted Bestiary Orb',
-    'Regal Shard',
-    'Scroll Fragment',
-    'Transmutation Shard',
-    "Harbinger's Shard",
-    # misc
-    'Fine Incubator',  # low-level version of Ornate Incubator
-    'Whispering Incubator',  # low-level version Infused Incubator
-    "Gemcutter's Incubator",  # superseded by Thaumaturge's Incubator?
-    'Pale Court Set',
-    'Blood-filled Vessel',
-    'Chronicle of Atzoatl',
-    'Deadly End',  # The Tower of Ordeals piece
-    'Ignominious Fate',  # The Tower of Ordeals piece
-    'Victorious Fate',  # The Tower of Ordeals piece
-    'Will of Chaos',  # The Tower of Ordeals piece
-    'Deregulation Scroll',  # upgrades Harbinger items
-    'Electroshock Scroll',  # upgrades Harbinger items
-    'Fragmentation Scroll',  # upgrades Harbinger items
-    'Haemocombustion Scroll',  # upgrades Harbinger items
-    'Specularity Scroll',  # upgrades Harbinger items
-    'Time-light Scroll',  # upgrades Harbinger items
-    'Ritual Splinter',
-    *(  # non-collectable Expedition artifacts
-        f'{tier} {faction} Artifact'
-        for tier, faction in itertools.product(
-            ('Lesser', 'Greater', 'Grand', 'Exceptional'),
-            ('Black Scythe', 'Broken Circle', 'Order', 'Sun'),
-        )
-    ),
-}
-KNOWN_NINJA_UNLISTED_CLASSES: set[str] = {  # wiki item classes that are never listed on ninja
-    'Monster Organ Sample',
-    'Voidstone',
-    'Captured Soul',
-    'Incursion Item',
-    'Fishing Rod',
-    'Expedition Logbook',
-    "Rogue's Brooch",
-    "Rogue's Cloak",
-    "Rogue's Gear",
-    "Rogue's Tool",
-    'Heist Target',
-    'Labyrinth Key',
-    'Labyrinth Trinket',
-    'Sanctum Research',
-}
 
 
 def get_items(league: League) -> Generator[Entry, None, None]:
@@ -233,7 +63,6 @@ def get_items(league: League) -> Generator[Entry, None, None]:
         DefaultHTTPSession() as antiquary_session,
         DefaultHTTPSession() as craftofexile_session,
     ):
-        ninja_unknown = []
         ninja_index = get_ninja_index(ninja_session, league)
         craftofexile_index = get_craftofexile_index(craftofexile_session)
 
@@ -245,7 +74,7 @@ def get_items(league: League) -> Generator[Entry, None, None]:
             group_by='name',
         ):
             # unpack result fields
-            name, base_item, class_, rarity, tradable = (
+            name, base_item, _, _, tradable = (
                 item['title']['name'],
                 item['title']['base item'],
                 item['title']['class'],
@@ -257,9 +86,6 @@ def get_items(league: League) -> Generator[Entry, None, None]:
                 continue
 
             ninja_category = ninja_index.match(name)
-            is_known = name in KNOWN_NINJA_UNLISTED_NAMES or class_ in KNOWN_NINJA_UNLISTED_CLASSES
-            if ninja_category is None and not is_known:
-                ninja_unknown.append((name, base_item, class_, rarity.value))
 
             display_text = name if ninja_category is not NinjaCategory.UNIQUE_MAPS else f'{name} {base_item}'
 
@@ -281,11 +107,3 @@ def get_items(league: League) -> Generator[Entry, None, None]:
                 entry_kwargs['craftofexile_url'] = make_craftofexile_url(*craftofexile_ids)
 
             yield Entry(**entry_kwargs)
-
-    print(
-        tabulate(
-            [[*thing] for thing in sorted(ninja_unknown, key=lambda x: x[2])],
-            headers=('name', 'base item', 'class', 'rarity id'),
-            tablefmt='outline',
-        ),
-    )
