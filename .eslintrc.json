@@ -42,6 +42,7 @@
         ]
     },
     "ignorePatterns": [
-        "assets/*"
+        "assets/*",
+        "venv/*"
     ]
 }
