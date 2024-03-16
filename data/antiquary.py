@@ -62,7 +62,8 @@ def make_antiquary_url(
     TODO: maybe it's not a good idea to use ninja_category as Ninja may forget about some
     categories after a league is done (e.g. Tattoos), but they will live on in antiquary.
     """
-    assert league.type_ in {LeagueType.CHALLENGE, LeagueType.CHALLENGE_HARDCORE}  # antiquary only supports these
+    if league.type_ not in {LeagueType.CHALLENGE, LeagueType.CHALLENGE_HARDCORE}:
+        return None  # antiquary does not support Standard or Hardcore
 
     league_name = league.previous_title.replace(' Hardcore', ' HC')  # patch "Ancestor Hardcore" -> "Ancestor HC"
     antiquary_category = ninja_antiquary_category_map.get(ninja_category)
