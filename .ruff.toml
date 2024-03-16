@@ -77,3 +77,6 @@ multiline-quotes = "single"
 
 [lint.isort]
 lines-after-imports = 2
+
+[format]
+quote-style = "single"

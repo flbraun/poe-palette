@@ -201,7 +201,8 @@ KNOWN_NINJA_UNLISTED_NAMES: set[str] = {  # item names that are never listed on 
     'Time-light Scroll',  # upgrades Harbinger items
     'Ritual Splinter',
     *(  # non-collectable Expedition artifacts
-        f'{tier} {faction} Artifact' for tier, faction in itertools.product(
+        f'{tier} {faction} Artifact'
+        for tier, faction in itertools.product(
             ('Lesser', 'Greater', 'Grand', 'Exceptional'),
             ('Black Scythe', 'Broken Circle', 'Order', 'Sun'),
         )

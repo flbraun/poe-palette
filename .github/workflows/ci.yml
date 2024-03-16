@@ -22,7 +22,10 @@ jobs:
                   python -m pip install -r requirements-dev.txt
 
             - name: Lint
-              run: python -m ruff check .
+              run: python -m ruff check
+
+            - name: Code formatting
+              run: python -m ruff format --diff
 
     lint-electron:
         runs-on: ubuntu-latest

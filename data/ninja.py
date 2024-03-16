@@ -11,18 +11,30 @@ from .utils import DefaultHTTPSession
 
 ninja_api_endpoint_for_category: dict[NinjaCategory, tuple[str, str]] = {  # (url_template, response_key)
     # General
-    NinjaCategory.CURRENCY: ('https://poe.ninja/api/data/currencyoverview?league={league}&type=Currency', 'currencyTypeName'),  # noqa: E501
-    NinjaCategory.FRAGMENTS: ('https://poe.ninja/api/data/currencyoverview?league={league}&type=Fragment', 'currencyTypeName'),  # noqa: E501
+    NinjaCategory.CURRENCY: (
+        'https://poe.ninja/api/data/currencyoverview?league={league}&type=Currency',
+        'currencyTypeName',
+    ),
+    NinjaCategory.FRAGMENTS: (
+        'https://poe.ninja/api/data/currencyoverview?league={league}&type=Fragment',
+        'currencyTypeName',
+    ),
     NinjaCategory.TATTOOS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Tattoo', 'name'),
     NinjaCategory.OMENS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Omen', 'name'),
-    NinjaCategory.DIVINATION_CARDS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=DivinationCard', 'name'),  # noqa: E501
+    NinjaCategory.DIVINATION_CARDS: (
+        'https://poe.ninja/api/data/itemoverview?league={league}&type=DivinationCard',
+        'name',
+    ),
     NinjaCategory.ARTIFACTS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Artifact', 'name'),
     NinjaCategory.OILS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Oil', 'name'),
     NinjaCategory.INCUBATORS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Incubator', 'name'),
     # Equipment & Gems
     NinjaCategory.UNIQUE_WEAPONS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueWeapon', 'name'),
     NinjaCategory.UNIQUE_ARMOURS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueArmour', 'name'),
-    NinjaCategory.UNIQUE_ACCESSORIES: ('https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueAccessory', 'name'),  # noqa: E501
+    NinjaCategory.UNIQUE_ACCESSORIES: (
+        'https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueAccessory',
+        'name',
+    ),
     NinjaCategory.UNIQUE_FLASKS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueFlask', 'name'),
     NinjaCategory.UNIQUE_JEWELS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueJewel', 'name'),
     NinjaCategory.UNIQUE_RELICS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueRelic', 'name'),
@@ -31,7 +43,10 @@ ninja_api_endpoint_for_category: dict[NinjaCategory, tuple[str, str]] = {  # (ur
     # Atlas
     NinjaCategory.MAPS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Map', 'name'),
     NinjaCategory.BLIGHTED_MAPS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=BlightedMap', 'name'),
-    NinjaCategory.BLIGHT_RAVAGED_MAPS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=BlightRavagedMap', 'name'),  # noqa: E501
+    NinjaCategory.BLIGHT_RAVAGED_MAPS: (
+        'https://poe.ninja/api/data/itemoverview?league={league}&type=BlightRavagedMap',
+        'name',
+    ),
     NinjaCategory.SCOURGED_MAPS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=ScourgedMap', 'name'),
     NinjaCategory.UNIQUE_MAPS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=UniqueMap', 'name'),
     NinjaCategory.DELIRIUM_ORBS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=DeliriumOrb', 'name'),

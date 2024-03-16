@@ -18,6 +18,7 @@ class DefaultHTTPSession(requests.Session):
     Automatically logs requests and response stats, and sets a default user agent so other
     community services can identify us.
     """
+
     def __init__(
         self,
         default_user_agent: str | None = 'PoE Palette Scraper (https://github.com/flbraun/poe-palette)',
@@ -52,6 +53,7 @@ class Entry:
     The final data container that serializes data for the
     electron app to consume.
     """
+
     display_text: str
     wiki_url: URL | None = None
     poedb_url: URL | None = None
@@ -86,6 +88,7 @@ class EnumAction(argparse.Action):
     Courtesy by Tim on StackOverflow: https://stackoverflow.com/a/60750535
     Slight adaptations to satisfy the project's linter.
     """
+
     def __init__(self, **kwargs) -> None:
         # Pop off the type value
         enum_type = kwargs.pop('type', None)
@@ -106,12 +109,12 @@ class EnumAction(argparse.Action):
         self._enum = enum_type
 
     def __call__(
-            self,
-            parser: argparse.ArgumentParser,
-            namespace: argparse.Namespace,
-            values: Any,  # noqa: ANN401
-            option_string: str | None = None,
-        ) -> None:
+        self,
+        parser: argparse.ArgumentParser,
+        namespace: argparse.Namespace,
+        values: Any,  # noqa: ANN401
+        option_string: str | None = None,
+    ) -> None:
         # Convert value back into an Enum
         value = self._enum(values)
         setattr(namespace, self.dest, value)

@@ -31,7 +31,7 @@ def get_craftofexile_index(craftofexile_session: DefaultHTTPSession) -> CraftOfE
     # make it invalid JSON. clean that up.
     junk = 'poecd='
     assert res.text.startswith(junk), f'{res.text[:20]}'
-    res_parsed = json.loads(res.text[len(junk):])
+    res_parsed = json.loads(res.text[len(junk) :])
 
     item: dict[str, Any]
     for item in res_parsed['bitems']['seq']:

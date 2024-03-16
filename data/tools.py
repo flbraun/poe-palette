@@ -10,7 +10,10 @@ tool_data = [
     {'display_text': 'PoeStack', 'tool_url': 'https://poestack.com/'},
     {'display_text': 'PoeStack - Stash View', 'tool_url': 'https://poestack.com/poe/stash-view?league={league_title}'},
     {'display_text': 'PoeStack - Pricing', 'tool_url': 'https://poestack.com/pricing'},
-    {'display_text': 'PoeStack - TFT Bulk Tool', 'tool_url': 'https://poestack.com/tft/bulk-tool?league={league_title}'},
+    {
+        'display_text': 'PoeStack - TFT Bulk Tool',
+        'tool_url': 'https://poestack.com/tft/bulk-tool?league={league_title}',
+    },
     {'display_text': 'PoeStack - TFT Compasses', 'tool_url': 'https://poestack.com/tft/live-search?tag=compasses'},
     {'display_text': 'PoeStack - TFT Five Ways', 'tool_url': 'https://poestack.com/tft/live-search?tag=five-ways'},
     # PoELab
@@ -39,7 +42,10 @@ tool_data = [
     {'display_text': 'Patch Notes Archive', 'tool_url': 'https://www.pathofexile.com/forum/view-forum/patch-notes'},
     {'display_text': 'Maxroll Passive Tree Planner', 'tool_url': 'https://maxroll.gg/poe/poe-passive-tree/'},
     {'display_text': 'Maxroll Atlas Tree Planner', 'tool_url': 'https://maxroll.gg/poe/poe-atlas-tree/'},
-    {'display_text': 'Large Cluster Jewel Calculator', 'tool_url': 'https://theodorejbieber.github.io/PoEClusterJewelCalculator/'},
+    {
+        'display_text': 'Large Cluster Jewel Calculator',
+        'tool_url': 'https://theodorejbieber.github.io/PoEClusterJewelCalculator/',
+    },
     {'display_text': 'Timeless Jewel Finder', 'tool_url': 'https://vilsol.github.io/timeless-jewels/tree'},
 ]
 
