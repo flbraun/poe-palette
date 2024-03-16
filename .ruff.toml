@@ -1,6 +1,8 @@
 preview = true
 target-version = "py311"
 line-length = 120
+
+[lint]
 select = [
   "F", # Pyflakes
   "E", # pycodestyle
@@ -69,9 +71,9 @@ ignore = [
   "ANN003", # Missing type annotation for **kwargs
 ]
 
-[flake8-quotes]
+[lint.flake8-quotes]
 inline-quotes = "single"
 multiline-quotes = "single"
 
-[isort]
+[lint.isort]
 lines-after-imports = 2
