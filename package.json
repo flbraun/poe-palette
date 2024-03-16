@@ -18,13 +18,13 @@
     "@electron-forge/cli": "^7.1.0",
     "@electron-forge/maker-zip": "^7.1.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.1.0",
-    "electron": "^27.0.2",
+    "electron": "^29.1.4",
     "eslint": "^8.50.0",
-    "stylelint": "^15.10.3",
-    "stylelint-config-standard": "^34.0.0"
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0"
   },
   "dependencies": {
-    "@nut-tree/nut-js": "^3.1.2",
+    "@nut-tree/nut-js": "^4.0.0",
     "electron-store": "^8.1.0",
     "semver": "^7.5.4"
   }
