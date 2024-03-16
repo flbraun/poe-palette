@@ -10,6 +10,7 @@ const POEPALETTE_MINISEARCH = new MiniSearch({
         'trade_url',
         'tft_url',
         'antiquary_url',
+        'craftofexile_url',
         'tool_url',
     ],
 })

@@ -60,6 +60,7 @@ class Entry:
     tft_url: URL | None = None
     tool_url: URL | None = None
     antiquary_url: URL | None = None
+    craftofexile_url: URL | None = None
 
 
 def make_wiki_url(item_name: str) -> URL:
