@@ -65,6 +65,15 @@ exports.createTray = (leftClickCallback, window) => {
         },
         {
             type: 'checkbox',
+            label: 'Craft of Exile',
+            checked: userSettings.get('craftofexileEnabled'),
+            click: (menuItem) => {
+                userSettings.set('craftofexileEnabled', menuItem.checked)
+                window.webContents.send('enabledResultTypesChanged', userSettings.getEnabledResultTypes())
+            },
+        },
+        {
+            type: 'checkbox',
             label: 'Tools',
             checked: userSettings.get('toolsEnabled'),
             click: (menuItem) => {

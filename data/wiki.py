@@ -6,6 +6,7 @@ from collections.abc import Generator
 from tabulate import tabulate
 
 from .antiquary import make_antiquary_url
+from .craftofexile import get_craftofexile_index, make_craftofexile_url
 from .leagues import League
 from .ninja import NinjaCategory, get_ninja_index, make_ninja_url
 from .trade import automake_trade_url
@@ -229,9 +230,11 @@ def get_items(league: League) -> Generator[Entry, None, None]:
         DefaultHTTPSession() as wiki_session,
         DefaultHTTPSession() as ninja_session,
         DefaultHTTPSession() as antiquary_session,
+        DefaultHTTPSession() as craftofexile_session,
     ):
         ninja_unknown = []
         ninja_index = get_ninja_index(ninja_session, league)
+        craftofexile_index = get_craftofexile_index(craftofexile_session)
 
         for item in iter_wiki_query(
             wiki_session,
@@ -271,6 +274,10 @@ def get_items(league: League) -> Generator[Entry, None, None]:
 
             if tradable:
                 entry_kwargs['trade_url'] = automake_trade_url(league, ninja_category, name, base_item=base_item)
+
+            craftofexile_ids = craftofexile_index.match(name)
+            if craftofexile_ids is not None:
+                entry_kwargs['craftofexile_url'] = make_craftofexile_url(*craftofexile_ids)
 
             yield Entry(**entry_kwargs)
 

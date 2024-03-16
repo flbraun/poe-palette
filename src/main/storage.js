@@ -13,6 +13,7 @@ const userSettingsSchema = {
     tradeEnabled: { type: 'boolean' },
     tftEnabled: { type: 'boolean' },
     antiquaryEnabled: { type: 'boolean' },
+    craftofexileEnabled: { type: 'boolean' },
     toolsEnabled: { type: 'boolean' },
     league: {
         type: 'string',
@@ -29,6 +30,7 @@ setdefault(userSettings, 'ninjaEnabled', true)
 setdefault(userSettings, 'tradeEnabled', true)
 setdefault(userSettings, 'tftEnabled', false)
 setdefault(userSettings, 'antiquaryEnabled', false)
+setdefault(userSettings, 'craftofexileEnabled', false)
 setdefault(userSettings, 'toolsEnabled', true)
 setdefault(userSettings, 'league', 'challenge')
 setdefault(userSettings, 'paletteShortcut', 'CommandOrControl+P')
@@ -41,6 +43,7 @@ userSettings.getEnabledResultTypes = () => {
     if (userSettings.get('tradeEnabled')) enabled.push('trade')
     if (userSettings.get('tftEnabled')) enabled.push('tft')
     if (userSettings.get('antiquaryEnabled')) enabled.push('antiquary')
+    if (userSettings.get('craftofexileEnabled')) enabled.push('craftofexile')
     if (userSettings.get('toolsEnabled')) enabled.push('tools')
     return enabled
 }
