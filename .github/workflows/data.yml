@@ -34,7 +34,7 @@ jobs:
             - name: Shelf data file
               uses: actions/upload-artifact@v4
               with:
-                name: data-files
+                name: data-files-${{ matrix.league }}
                 path: data-${{ matrix.league }}.json
 
     publish:
@@ -55,9 +55,10 @@ jobs:
                 python -m pip install -r requirements.txt
 
             - name: Unshelf data files
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
-                  name: data-files
+                  pattern: data-files-*
+                  merge-multiple: true
 
             - name: Publish all data files
               env:
