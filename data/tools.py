@@ -14,7 +14,6 @@ tool_data = [
         'display_text': 'PoeStack - TFT Bulk Tool',
         'tool_url': 'https://poestack.com/tft/bulk-tool?league={league_title}',
     },
-    {'display_text': 'PoeStack - TFT Compasses', 'tool_url': 'https://poestack.com/tft/live-search?tag=compasses'},
     {'display_text': 'PoeStack - TFT Five Ways', 'tool_url': 'https://poestack.com/tft/live-search?tag=five-ways'},
     # PoELab
     {'display_text': 'PoELab - Normal', 'tool_url': 'https://www.poelab.com/gtgax'},

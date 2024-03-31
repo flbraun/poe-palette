@@ -100,23 +100,6 @@ bulk_trade_tokens: dict[str, str] = {
     "Maven's Invitation: The Hidden": 'the-hidden',
     "Maven's Invitation: The Feared": 'the-feared',
     "Maven's Invitation: The Elderslayers": 'the-elderslayers',
-    # Scarabs
-    'Winged Breach Scarab': 'jewelled-breach-scarab',
-    'Winged Cartography Scarab': 'jewelled-cartography-scarab',
-    'Winged Reliquary Scarab': 'jewelled-reliquary-scarab',
-    'Winged Bestiary Scarab': 'jewelled-bestiary-scarab',
-    'Winged Shaper Scarab': 'jewelled-shaper-scarab',
-    'Winged Elder Scarab': 'jewelled-elder-scarab',
-    'Winged Sulphite Scarab': 'jewelled-sulphite-scarab',
-    'Winged Divination Scarab': 'jewelled-divination-scarab',
-    'Winged Torment Scarab': 'jewelled-torment-scarab',
-    'Winged Ambush Scarab': 'jewelled-ambush-scarab',
-    'Winged Harbinger Scarab': 'jewelled-harbinger-scarab',
-    'Winged Expedition Scarab': 'jewelled-expedition-scarab',
-    'Winged Legion Scarab': 'jewelled-legion-scarab',
-    'Winged Metamorph Scarab': 'jewelled-metamorph-scarab',
-    'Winged Blight Scarab': 'jewelled-blight-scarab',
-    'Winged Abyss Scarab': 'jewelled-abyss-scarab',
 }
 
 

@@ -58,7 +58,7 @@ if args.command == 'gen':
             get_items(league),
             get_beasts(league),
             get_tools(league),
-            get_tft_channels(args.league_type),
+            get_tft_channels(league, args.league_type),
         ),
     ):
         data.append({'id': num, **asdict(entry)})

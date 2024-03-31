@@ -5,6 +5,7 @@ from collections.abc import Generator
 
 import emoji
 
+from .leagues import League
 from .types import URL, LeagueType
 from .utils import DefaultHTTPSession, Entry
 
@@ -23,19 +24,21 @@ def get_channel_list(server_id: str) -> list[dict]:
     return res.json()
 
 
-def get_tft_channels(league_type: LeagueType) -> Generator[Entry, None, None]:
+def get_tft_channels(league: League, league_type: LeagueType) -> Generator[Entry, None, None]:
     tft_server_id = '645607528297922560'
     channels = get_channel_list(tft_server_id)
 
     if league_type == LeagueType.CHALLENGE:
         container_phrases = (
-            'Affliction SC Services',
-            'Affliction SC Trades',
-            'Affliction SC Bulk WTB',
-            'Affliction SC Bulk WTS',
+            f'{league.title} SC Services',
+            f'{league.title} SC Trades',
+            f'{league.title} SC Bulk WTB',
+            f'{league.title} SC Bulk WTS',
         )
     elif league_type == LeagueType.CHALLENGE_HARDCORE:
-        container_phrases = ('Affliction Hardcore',)
+        # swap league.title, e.g. "Hardcore Ancestor" to TFT's "Ancestor Hardcore"
+        fragments = league.title.split(' ')
+        container_phrases = (f'{fragments[1]} {fragments[0]}',)
     elif league_type == LeagueType.STANDARD:
         container_phrases = ('Standard Services', 'Standard Trades', 'Standard Bulk')
     elif league_type == LeagueType.HARDCORE:
