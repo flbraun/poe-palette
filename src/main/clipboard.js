@@ -1,4 +1,4 @@
-const { keyboard, Key } = require('@nut-tree/nut-js')
+const { keyboard, Key } = require('@nut-tree-fork/nut-js')
 const { clipboard } = require('electron')
 
 keyboard.config.autoDelayMs = 5
