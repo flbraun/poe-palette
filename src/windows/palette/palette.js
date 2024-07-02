@@ -7,14 +7,14 @@ const KEY_CODES = {
 }
 
 const ICONS = {
-    WIKI: '../../assets/wiki.png',
-    POEDB: '../../assets/poedb.png',
-    NINJA: '../../assets/ninja.png',
-    TRADE: '../../assets/trade.png',
-    TFT: '../../assets/tft.png',
-    ANTIQUARY: '../../assets/antiquary.png',
-    CRAFTOFEXILE: '../../assets/craftofexile.png',
-    GOTO: '../../assets/goto.png',
+    WIKI: '../../../assets/wiki.png',
+    POEDB: '../../../assets/poedb.png',
+    NINJA: '../../../assets/ninja.png',
+    TRADE: '../../../assets/trade.png',
+    TFT: '../../../assets/tft.png',
+    ANTIQUARY: '../../../assets/antiquary.png',
+    CRAFTOFEXILE: '../../../assets/craftofexile.png',
+    GOTO: '../../../assets/goto.png',
 }
 
 const resultTypes = ['wiki', 'poedb', 'ninja', 'trade', 'tft', 'antiq', 'craft', 'tool']

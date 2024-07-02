@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, globalShortcut, dialog } = require('electron')
+const { app, BrowserWindow, ipcMain, shell, globalShortcut, dialog, screen } = require('electron')
 const path = require('node:path')
 const tray = require('./tray')
 const { userSettings } = require('./storage')
@@ -12,26 +12,6 @@ if (app.isPackaged) {
     checkForUpdates()
 }
 
-const createWindow = (width, height) => {
-    const win = new BrowserWindow({
-        width: width,
-        height: height,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-        },
-        frame: false,
-        transparent: true,
-        show: false,
-        skipTaskbar: true,
-    })
-    win.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'))
-
-    // automatically open dev tools when in dev mode
-    if (!app.isPackaged) win.webContents.openDevTools()
-
-    return win
-}
-
 const toggleWindowVisibility = (win) => {
     if (win.isVisible()) {
         win.hide()
@@ -40,10 +20,10 @@ const toggleWindowVisibility = (win) => {
     }
 }
 
-const panic = (window, msg) => {
+const panic = (msg) => {
     // call when something non-recoverable happened.
     // displays the message, then exits the application.
-    dialog.showMessageBoxSync(window, {
+    dialog.showMessageBoxSync(null, {
         type: 'error',
         title: 'Fatal Error',
         message: 'A fatal error occured.',
@@ -53,41 +33,61 @@ const panic = (window, msg) => {
     app.quit()
 }
 
-app.whenReady().then(() => {
-    const { screen } = require('electron')
+const createPaletteWindow = () => {
     const primaryDisplay = screen.getPrimaryDisplay()
     const { width, height } = primaryDisplay.workAreaSize
 
+    const window = new BrowserWindow({
+        width: width,
+        height: height,
+        webPreferences: {
+            preload: path.join(__dirname, '..', 'windows', 'palette', 'preload.js'),
+        },
+        frame: false,
+        transparent: true,
+        show: false,
+        skipTaskbar: true,
+    })
+    window.loadFile(path.join(__dirname, '..', 'windows', 'palette', 'index.html'))
+
+    // hide the palette window when it loses focus
+    window.on('blur', window.hide)
+
+    // automatically open dev tools when in dev mode
+    if (!app.isPackaged) window.webContents.openDevTools()
+
+    return window
+}
+
+app.whenReady().then(() => {
     console.log('\n----------------------------------------')
     console.log(`PoE Palette v${app.getVersion()}`)
     console.log(`Running Node v${process.versions.node}`)
     console.log(`Running Electron v${process.versions.electron}`)
     console.log(`Running Chromium v${process.versions.chrome}`)
-    console.log(`Screen dimensions: ${width}x${height} px`)
     console.log('----------------------------------------')
 
-    // create main window and tray
-    const window = createWindow(width, height)
-    tray.createTray(() => toggleWindowVisibility(window), window)
-    // hide the palette window when it loses focus
-    window.on('blur', window.hide)
+    const paletteWindow = createPaletteWindow()
 
-    // register IPC handlers for messages _from_ the renderer
+    // create tray and make it toggle the palette window when left-clicked
+    tray.createTray(() => toggleWindowVisibility(paletteWindow), paletteWindow)
+
+    // register IPC handlers for messages _from_ the palette renderer
     ipcMain.handle('externalUrlOpen', (event, url) => shell.openExternal(url))
-    ipcMain.handle('panic', (event, msg) => panic(window, msg))
-    ipcMain.handle('hideWindow', () => window.hide())
+    ipcMain.handle('panic', (event, msg) => panic(msg))
+    ipcMain.handle('hideWindow', () => paletteWindow.hide())
 
-    // once the window has finished loading, send the current user settings to the renderer
-    window.webContents.once('did-finish-load', () => {
-        window.webContents.send('enabledResultTypesChanged', userSettings.getEnabledResultTypes())
-        window.webContents.send('leagueChanged', userSettings.get('league'))
+    // once the window has finished loading, send the current user settings to the palette renderer
+    paletteWindow.webContents.once('did-finish-load', () => {
+        paletteWindow.webContents.send('enabledResultTypesChanged', userSettings.getEnabledResultTypes())
+        paletteWindow.webContents.send('leagueChanged', userSettings.get('league'))
     })
 
     // register shortcuts
     const shortcuts = new Map([ // shortcut => callback
         [
             userSettings.get('paletteShortcut'),
-            () => toggleWindowVisibility(window),
+            () => toggleWindowVisibility(paletteWindow),
         ],
         [
             userSettings.get('itemOnPaletteShortcut'),
@@ -95,8 +95,8 @@ app.whenReady().then(() => {
                 getItemNameFromGame()
                     .then((itemName) => {
                         if (itemName !== null) {
-                            window.webContents.send('itemOnPalette', itemName)
-                            toggleWindowVisibility(window)
+                            paletteWindow.webContents.send('itemOnPalette', itemName)
+                            toggleWindowVisibility(paletteWindow)
                         }
                     })
                     .catch((err) => console.error(err))
@@ -106,7 +106,7 @@ app.whenReady().then(() => {
     shortcuts.forEach((value, key) => {
         const ret = globalShortcut.register(key, value)
         if (!ret) {
-            panic(window, `Failed to register shortcut: ${key}`)
+            panic(`Failed to register shortcut: ${key}`)
         }
     })
 
