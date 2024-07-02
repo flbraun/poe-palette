@@ -73,7 +73,7 @@ if args.command == 'gen':
         'data': data,
     }
 
-    with pathlib.Path(f'data-{args.league_type.value}.json').open('w') as file:
+    with pathlib.Path(f'data-{args.league_type.value}.json').open('w', encoding='utf-8') as file:
         json.dump(doc, file)
 
 
