@@ -7,7 +7,13 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "electron"
+      - "ignore-for-release"
   - package-ecosystem: "pip-compile"
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "data"
+      - "ignore-for-release"
