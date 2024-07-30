@@ -29,21 +29,19 @@ def get_tft_channels(league: League, league_type: LeagueType) -> Generator[Entry
     channels = get_channel_list(tft_server_id)
 
     if league_type == LeagueType.CHALLENGE:
-        # TFT sometimes doesn't follow the naming convention
-        if league.title == 'Settlers':  # noqa: SIM108
-            league_title = 'Kalguur'
-        else:
-            league_title = league.title
         container_phrases = (
-            f'{league_title} SC Services',
-            f'{league_title} SC Trades',
-            f'{league_title} SC Bulk WTB',
-            f'{league_title} SC Bulk WTS',
+            f'{league.title} SC Services',
+            f'{league.title} SC Trades',
+            f'{league.title} SC Bulk WTB',
+            f'{league.title} SC Bulk WTS',
         )
     elif league_type == LeagueType.CHALLENGE_HARDCORE:
         # swap league.title, e.g. "Hardcore Ancestor" to TFT's "Ancestor Hardcore"
         fragments = league.title.split(' ')
-        container_phrases = (f'{fragments[1]} {fragments[0]}',)
+        container_phrases = (
+            f'{fragments[1]} {fragments[0]}',
+            'Kalguur Hardcore',  # should be 'Settlers Hardcore', misnamed in TFT
+        )
     elif league_type == LeagueType.STANDARD:
         container_phrases = ('Standard Services', 'Standard Trades', 'Standard Bulk')
     elif league_type == LeagueType.HARDCORE:
