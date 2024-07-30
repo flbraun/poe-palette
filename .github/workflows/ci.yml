@@ -26,6 +26,8 @@ jobs:
 
             - name: Code formatting
               run: python -m ruff format --diff
+        env:
+            PYTHONUNBUFFERED: 1
 
     lint-electron:
         runs-on: ubuntu-latest

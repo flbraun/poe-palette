@@ -36,6 +36,8 @@ jobs:
               with:
                 name: data-files-${{ matrix.league }}
                 path: data-${{ matrix.league }}.json
+        env:
+            PYTHONUNBUFFERED: 1
 
     publish:
         runs-on: ubuntu-latest
@@ -68,3 +70,5 @@ jobs:
                 CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
               run: |
                   python -m data pub data-*.json
+        env:
+            PYTHONUNBUFFERED: 1
