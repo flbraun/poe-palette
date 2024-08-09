@@ -17,6 +17,7 @@ class NinjaCategory(Enum):
     # General
     CURRENCY = 'Currency'
     FRAGMENTS = 'Fragments'
+    RUNES = 'Kalguuran Runes'
     TATTOOS = 'Tattoos'
     OMENS = 'Omens'
     DIVINATION_CARDS = 'Divination Cards'

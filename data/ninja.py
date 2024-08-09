@@ -19,6 +19,7 @@ ninja_api_endpoint_for_category: dict[NinjaCategory, tuple[str, str]] = {  # (ur
         'https://poe.ninja/api/data/currencyoverview?league={league}&type=Fragment',
         'currencyTypeName',
     ),
+    NinjaCategory.RUNES: ('https://poe.ninja/api/data/itemoverview?league={league}&type=KalguuranRune', 'name'),
     NinjaCategory.TATTOOS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Tattoo', 'name'),
     NinjaCategory.OMENS: ('https://poe.ninja/api/data/itemoverview?league={league}&type=Omen', 'name'),
     NinjaCategory.DIVINATION_CARDS: (
@@ -66,6 +67,7 @@ ninja_url_for_category: dict[NinjaCategory, tuple[str, bool]] = {  # (url_templa
     # General
     NinjaCategory.CURRENCY: ('https://poe.ninja/economy/{league}/currency', False),
     NinjaCategory.FRAGMENTS: ('https://poe.ninja/economy/{league}/fragments', False),
+    NinjaCategory.RUNES: ('https://poe.ninja/economy/{league}/kalguuran-runes', False),
     NinjaCategory.TATTOOS: ('https://poe.ninja/economy/{league}/tattoos', False),
     NinjaCategory.OMENS: ('https://poe.ninja/economy/{league}/omens', False),
     NinjaCategory.DIVINATION_CARDS: ('https://poe.ninja/economy/{league}/divination-cards', False),
