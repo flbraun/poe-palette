@@ -65,8 +65,6 @@ select = [
 ]
 ignore = [
   "S101", # Use of `assert` detected
-  "ANN101", # Missing type annotation for self in method
-  "ANN102", # Missing type annotation for cls in classmethod
   "ANN002", # Missing type annotation for *args
   "ANN003", # Missing type annotation for **kwargs
 ]

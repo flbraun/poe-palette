@@ -1,3 +1,4 @@
+# noqa: A005
 from enum import Enum, unique
 
 
