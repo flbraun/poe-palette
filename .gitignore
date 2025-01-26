@@ -1,8 +1,11 @@
 .vscode/
 .idea/
+.mypy_cache/
 .ruff_cache/
+.venv/
 venv/
 node_modules/
 out/
 __pycache__
 data-*.json
+loadenv.sh

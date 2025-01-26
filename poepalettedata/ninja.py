@@ -1,13 +1,14 @@
 import dataclasses
 import functools
 import http
+import logging
+from typing import TypeAlias
 
-from tabulate import tabulate
+from poepalettedata.types import URL, NinjaCategory
+from poepalettedata.utils import DefaultHTTPSession
 
-from .leagues import League
-from .types import URL, NinjaCategory
-from .utils import DefaultHTTPSession
 
+logger = logging.getLogger(__name__)
 
 ninja_api_endpoint_for_category: dict[NinjaCategory, tuple[str, str]] = {  # (url_template, response_key)
     # General
@@ -102,10 +103,12 @@ ninja_url_for_category: dict[NinjaCategory, tuple[str, bool]] = {  # (url_templa
     NinjaCategory.VIALS: ('https://poe.ninja/economy/{league}/vials', False),
 }
 
+RawNinjaIndex: TypeAlias = dict[NinjaCategory, set[str]]
+
 
 @dataclasses.dataclass(frozen=True)
 class NinjaIndex:
-    raw: dict[NinjaCategory, set[str]]
+    raw: RawNinjaIndex
 
     def match(self, item_name: str) -> NinjaCategory | None:
         for category, items in self.raw.items():
@@ -117,42 +120,43 @@ class NinjaIndex:
     def stats(self) -> dict[NinjaCategory, int]:
         return {key: len(self.raw[key]) for key in self.raw}
 
-    def print_stats(self) -> None:
-        print(
-            tabulate(
-                [[category, length] for category, length in self.stats.items()],
-                headers=('ninja category', '# items'),
-                tablefmt='outline',
-            ),
-        )
+    def log_stats(self) -> None:
+        logger.info('PoE Ninja index stats:')
+        for category, length in self.stats.items():
+            logger.info('%(category)s: %(length)d', {'category': str(category), 'length': length})
 
 
 @functools.cache
-def get_ninja_index(ninja_session: DefaultHTTPSession, league: League) -> NinjaIndex:
+def get_ninja_index(api_league_name: str) -> NinjaIndex:
     """
     Downloads current data from ninja and makes it available as a sort-of index.
     """
-    index = {}
+    raw: RawNinjaIndex = {}
 
     for category, endpoint_info in ninja_api_endpoint_for_category.items():
         url_template, response_attr = endpoint_info
-        url = url_template.format(league=league.title)
+        url = url_template.format(league=api_league_name)
 
-        res = ninja_session.get(url)
+        res = DefaultHTTPSession().get(url)
         assert res.status_code == http.HTTPStatus.OK, f'{res.status_code} {url}'
 
         res_parsed = res.json()
-        index[category] = {line[response_attr] for line in res_parsed['lines']}
+        raw[category] = {line[response_attr] for line in res_parsed['lines']}
 
-    index = NinjaIndex(raw=index)
-    index.print_stats()
+    index: NinjaIndex = NinjaIndex(raw=raw)
+    index.log_stats()
 
     return index
 
 
-def make_ninja_url(league: League, item_name: str, base_name: str | None, category: NinjaCategory) -> URL | None:
+def make_ninja_url(
+    website_league_name: str,
+    item_name: str,
+    base_name: str | None,
+    category: NinjaCategory,
+) -> URL | None:
     base_url_template, name_as_param = ninja_url_for_category[category]
-    base_url = base_url_template.format(league=league.slug)
+    base_url = base_url_template.format(league=website_league_name)
 
     if name_as_param:
         return f'{base_url}?name={item_name}'

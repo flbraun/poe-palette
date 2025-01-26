@@ -1,0 +1,7 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 2,14 * * * /app/contrib/docker/cron_wrap.sh challenge --upload >> /var/log/poepalettedata/challenge.log 2>&1
+0 2,14 * * * /app/contrib/docker/cron_wrap.sh challengehc --upload >> /var/log/poepalettedata/challengehc.log 2>&1
+0 2,14 * * * /app/contrib/docker/cron_wrap.sh standard --upload >> /var/log/poepalettedata/standard.log 2>&1
+0 2,14 * * * /app/contrib/docker/cron_wrap.sh hardcore --upload >> /var/log/poepalettedata/hardcore.log 2>&1

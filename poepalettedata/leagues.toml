@@ -1,0 +1,31 @@
+[challenge]
+ninja_api_league_name = "Settlers"
+ninja_website_league_name = "settlers"
+trade_league_name = "settlers"
+tft_channel_groups = [ "Settlers SC Services", "Settlers SC Trades", "Settlers SC Bulk WTS", "Settlers SC Bulk WTB" ]
+antiquary_league_name = "Necropolis"
+upload = true
+publish = true
+
+[challengehc]
+ninja_api_league_name = "Hardcore Settlers"
+ninja_website_league_name = "settlershc"
+trade_league_name = "Hardcore Settlers"
+antiquary_league_name = "Necropolis"
+upload = true
+publish = true
+
+[standard]
+ninja_api_league_name = "Settlers"
+ninja_website_league_name = "settlers"
+trade_league_name = "settlers"
+tft_channel_groups = [  "Standard Services", "Standard Trades", "Standard Bulk" ]
+upload = true
+publish = true
+
+[hardcore]
+ninja_api_league_name = "Settlers"
+ninja_website_league_name = "settlers"
+trade_league_name = "settlers"
+upload = true
+publish = true
