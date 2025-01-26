@@ -1,10 +1,9 @@
 import json
+from typing import Any
 from urllib.parse import quote
 
-from .leagues import League
-from .ninja import NinjaCategory
-from .types import URL
-from .utils import slugify
+from poepalettedata.types import URL, NinjaCategory
+from poepalettedata.utils import slugify
 
 
 bulk_tradable_ninja_categories: set[NinjaCategory] = {
@@ -103,7 +102,7 @@ bulk_trade_tokens: dict[str, str] = {
 }
 
 
-def automake_trade_url(league: League, category: NinjaCategory, item_name: str, base_item: str | None = None) -> URL:
+def automake_trade_url(league_name: str, category: NinjaCategory, item_name: str, base_item: str | None = None) -> URL:
     # NinjaCategory is a good (but not perfect) indicator of whether an item is bulk tradable.
     if category in bulk_tradable_ninja_categories:
         if category in {
@@ -113,18 +112,18 @@ def automake_trade_url(league: League, category: NinjaCategory, item_name: str, 
             NinjaCategory.SCOURGED_MAPS,
         }:
             item_name = f'{item_name} Tier 16'
-        return make_bulk_trade_url(league, item_name)
+        return make_bulk_trade_url(league_name, item_name)
 
     if base_item:
         trade_type, trade_name = base_item, item_name
     else:
         trade_type, trade_name = item_name, None
-    return make_trade_url(league, trade_type, name=trade_name)
+    return make_trade_url(league_name, trade_type, name=trade_name)
 
 
-def make_trade_url(league: League, type_: str, name: str | None = None) -> URL:
+def make_trade_url(league_name: str, type_: str, name: str | None = None) -> URL:
     # do not change the order of the keys carelessly! the trade site is very sensitive about them.
-    query = {
+    query: dict[str, dict[str, Any]] = {
         'query': {
             'status': {'option': 'online'},
             'type': type_,
@@ -137,10 +136,10 @@ def make_trade_url(league: League, type_: str, name: str | None = None) -> URL:
         query['query']['name'] = name
 
     query_quoted = quote(json.dumps(query))
-    return f'https://www.pathofexile.com/trade/search/{league.title}?q={query_quoted}'
+    return f'https://www.pathofexile.com/trade/search/{league_name}?q={query_quoted}'
 
 
-def make_bulk_trade_url(league: League, name: str) -> URL:
+def make_bulk_trade_url(league_name: str, name: str) -> URL:
     c, div = bulk_trade_tokens['Chaos Orb'], bulk_trade_tokens['Divine Orb']
 
     if name == 'Divine Orb':
@@ -164,4 +163,4 @@ def make_bulk_trade_url(league: League, name: str) -> URL:
     }
 
     query_quoted = quote(json.dumps(query))
-    return f'https://www.pathofexile.com/trade/exchange/{league.title}?q={query_quoted}'
+    return f'https://www.pathofexile.com/trade/exchange/{league_name}?q={query_quoted}'

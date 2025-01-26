@@ -4,8 +4,8 @@ import http
 import json
 from typing import Any
 
-from .types import URL
-from .utils import DefaultHTTPSession
+from poepalettedata.types import URL
+from poepalettedata.utils import DefaultHTTPSession
 
 
 @dataclasses.dataclass(frozen=True)
@@ -17,14 +17,14 @@ class CraftOfExileIndex:
 
 
 @functools.cache
-def get_craftofexile_index(craftofexile_session: DefaultHTTPSession) -> CraftOfExileIndex:
+def get_craftofexile_index() -> CraftOfExileIndex:
     """
     Downloads current data from Craft of Exile and makes it available as a sort-of index.
     """
     index = {}
 
     url = 'https://www.craftofexile.com/json/data/main/poec_data.json'
-    res = craftofexile_session.get(url)
+    res = DefaultHTTPSession().get(url)
     assert res.status_code == http.HTTPStatus.OK, f'{res.status_code} {url}'
 
     # the endpoint returns a JSON string, but its prefixed with some junk that

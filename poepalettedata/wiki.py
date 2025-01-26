@@ -1,17 +1,20 @@
 import http
-import pprint
+import logging
 from collections.abc import Generator
+from typing import Any
 
-from .antiquary import make_antiquary_url
-from .craftofexile import get_craftofexile_index, make_craftofexile_url
-from .leagues import League
-from .ninja import NinjaCategory, get_ninja_index, make_ninja_url
-from .trade import automake_trade_url
-from .types import Rarity
-from .utils import DefaultHTTPSession, Entry, make_poedb_url, make_wiki_url
+from poepalettedata.antiquary import make_antiquary_url
+from poepalettedata.craftofexile import get_craftofexile_index, make_craftofexile_url
+from poepalettedata.ninja import get_ninja_index, make_ninja_url
+from poepalettedata.trade import automake_trade_url
+from poepalettedata.types import URL, NinjaCategory, Rarity
+from poepalettedata.utils import Config, DefaultHTTPSession, Entry, make_poedb_url, make_wiki_url
 
 
-def iter_wiki_query(wiki_session: DefaultHTTPSession, **cargo_params: dict[str, str]) -> Generator[dict, None, None]:
+logger = logging.getLogger(__name__)
+
+
+def iter_wiki_query(wiki_session: DefaultHTTPSession, **cargo_params: str) -> Generator[dict[str, Any]]:
     page_size = 500
     offset = 0
 
@@ -21,8 +24,8 @@ def iter_wiki_query(wiki_session: DefaultHTTPSession, **cargo_params: dict[str, 
             params={
                 'action': 'cargoquery',
                 'format': 'json',
-                'offset': offset,
-                'limit': page_size,
+                'offset': str(offset),
+                'limit': str(page_size),
                 **cargo_params,
             },
         )
@@ -33,8 +36,8 @@ def iter_wiki_query(wiki_session: DefaultHTTPSession, **cargo_params: dict[str, 
             result_page = res_decoded['cargoquery']
         except KeyError:
             # unexpected message format, probably the query was bad.
-            # print full response for debugging.
-            pprint.pprint(res_decoded)
+            # log full response for debugging.
+            logger.exception('unexpected response from wiki: %s', res_decoded)
             raise
         result_page_len = len(result_page)
 
@@ -56,15 +59,13 @@ WIKI_ITEM_BLACKLIST: set[str] = {  # items to completely ignore when importing f
 }
 
 
-def get_items(league: League) -> Generator[Entry, None, None]:
+def get_items(config: Config) -> Generator[Entry]:
     with (
         DefaultHTTPSession() as wiki_session,
-        DefaultHTTPSession() as ninja_session,
         DefaultHTTPSession() as antiquary_session,
-        DefaultHTTPSession() as craftofexile_session,
     ):
-        ninja_index = get_ninja_index(ninja_session, league)
-        craftofexile_index = get_craftofexile_index(craftofexile_session)
+        ninja_index = get_ninja_index(config.ninja_api_league_name)
+        craftofexile_index = get_craftofexile_index()
 
         for item in iter_wiki_query(
             wiki_session,
@@ -89,21 +90,37 @@ def get_items(league: League) -> Generator[Entry, None, None]:
 
             display_text = name if ninja_category is not NinjaCategory.UNIQUE_MAPS else f'{name} {base_item}'
 
-            entry_kwargs = {
-                'display_text': display_text,
+            entry_kwargs: dict[str, URL | None] = {
                 'wiki_url': make_wiki_url(name),
                 'poedb_url': make_poedb_url(name),
-                'antiquary_url': make_antiquary_url(antiquary_session, league, ninja_category, name),
             }
 
-            if ninja_category is not None and ninja_category != NinjaCategory.CLUSTER_JEWELS:
-                entry_kwargs['ninja_url'] = make_ninja_url(league, name, base_item, ninja_category)
+            if ninja_category is not None:
+                if ninja_category != NinjaCategory.CLUSTER_JEWELS:
+                    entry_kwargs['ninja_url'] = make_ninja_url(
+                        config.ninja_website_league_name,
+                        name,
+                        base_item,
+                        ninja_category,
+                    )
 
-            if tradable:
-                entry_kwargs['trade_url'] = automake_trade_url(league, ninja_category, name, base_item=base_item)
+                entry_kwargs['antiquary_url'] = make_antiquary_url(
+                    antiquary_session,
+                    config.antiquary_league_name,
+                    ninja_category,
+                    name,
+                )
+
+                if tradable:
+                    entry_kwargs['trade_url'] = automake_trade_url(
+                        config.trade_league_name,
+                        ninja_category,
+                        name,
+                        base_item=base_item,
+                    )
 
             craftofexile_ids = craftofexile_index.match(name)
             if craftofexile_ids is not None:
                 entry_kwargs['craftofexile_url'] = make_craftofexile_url(*craftofexile_ids)
 
-            yield Entry(**entry_kwargs)
+            yield Entry(display_text, **entry_kwargs)

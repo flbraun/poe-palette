@@ -1,0 +1,10 @@
+name: poepalettedata
+
+services:
+
+  data:
+    image: ghcr.io/flbraun/poe-palette/poepalettedata:latest
+    volumes:
+      - ./loadenv.sh:/etc/env/poepalettedata/loadenv.sh
+      - ./logs:/var/log/poepalettedata
+      - ./datafiles:/tmp/poepalettedata/datafiles

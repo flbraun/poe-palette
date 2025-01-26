@@ -1,10 +1,7 @@
-import functools
 import http
 
-from .leagues import League
-from .ninja import NinjaCategory
-from .types import URL, LeagueType
-from .utils import DefaultHTTPSession
+from poepalettedata.types import URL, NinjaCategory
+from poepalettedata.utils import DefaultHTTPSession
 
 
 # antiquary has slightly different categoriy names than ninja, map them.
@@ -48,10 +45,9 @@ ninja_antiquary_category_map: dict[NinjaCategory, str] = {
 }
 
 
-@functools.cache
 def make_antiquary_url(
     antiquary_session: DefaultHTTPSession,
-    league: League,
+    league_name: str | None,
     ninja_category: NinjaCategory,
     item_name: str,
 ) -> URL | None:
@@ -62,10 +58,9 @@ def make_antiquary_url(
     TODO: maybe it's not a good idea to use ninja_category as Ninja may forget about some
     categories after a league is done (e.g. Tattoos), but they will live on in antiquary.
     """
-    if league.type_ not in {LeagueType.CHALLENGE, LeagueType.CHALLENGE_HARDCORE}:
-        return None  # antiquary does not support Standard or Hardcore
+    if not league_name:
+        return None
 
-    league_name = league.previous_title.replace(' Hardcore', ' HC')  # patch "Ancestor Hardcore" -> "Ancestor HC"
     antiquary_category = ninja_antiquary_category_map.get(ninja_category)
     if antiquary_category is None:
         return None
