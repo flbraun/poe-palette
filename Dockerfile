@@ -1,17 +1,33 @@
-FROM python:3.13-slim-bookworm
+FROM python:3.14-slim-trixie AS builder
+
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get upgrade -y
+RUN pip install uv
 
-# setup py
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-COPY poepalettedata /app/poepalettedata
+COPY pyproject.toml uv.lock ./
 
-# setup cron
-RUN apt-get install -y cron && apt-get clean
-COPY contrib /app/contrib
+RUN uv sync --no-dev
+
+# ---------
+
+FROM python:3.14-slim-trixie
+
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+RUN apt-get update &&\
+    apt-get upgrade -y &&\
+    apt-get install -y cron &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists
+
+COPY --from=builder /app/.venv /opt/virtualenvs/poepalettedata
+COPY poepalettedata poepalettedata
+COPY contrib contrib
+
 RUN crontab contrib/docker/poepalettedata-cron
 
 # run cron in background and tail logs to container output

@@ -1,8 +1,0 @@
--r requirements.txt
-
-ruff
-
-# typing stuff
-mypy
-boto3-stubs
-types-requests
