@@ -2,7 +2,6 @@ import dataclasses
 import functools
 import http
 import logging
-from typing import TypeAlias
 
 from poepalettedata.types import URL, NinjaCategory
 from poepalettedata.utils import DefaultHTTPSession
@@ -103,7 +102,7 @@ ninja_url_for_category: dict[NinjaCategory, tuple[str, bool]] = {  # (url_templa
     NinjaCategory.VIALS: ('https://poe.ninja/economy/{league}/vials', False),
 }
 
-RawNinjaIndex: TypeAlias = dict[NinjaCategory, set[str]]
+type RawNinjaIndex = dict[NinjaCategory, set[str]]
 
 
 @dataclasses.dataclass(frozen=True)

@@ -2,10 +2,15 @@ import dataclasses
 import functools
 import http
 import json
-from typing import Any
+import typing
 
-from poepalettedata.types import URL
 from poepalettedata.utils import DefaultHTTPSession
+
+
+if typing.TYPE_CHECKING:
+    from typing import Any
+
+    from poepalettedata.types import URL
 
 
 @dataclasses.dataclass(frozen=True)

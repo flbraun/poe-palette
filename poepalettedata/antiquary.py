@@ -1,7 +1,11 @@
 import http
+import typing
 
 from poepalettedata.types import URL, NinjaCategory
-from poepalettedata.utils import DefaultHTTPSession
+
+
+if typing.TYPE_CHECKING:
+    from poepalettedata.utils import DefaultHTTPSession
 
 
 # antiquary has slightly different categoriy names than ninja, map them.

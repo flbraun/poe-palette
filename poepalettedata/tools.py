@@ -1,7 +1,11 @@
-from collections.abc import Generator
+import typing
 
 from poepalettedata.types import NinjaCategory
 from poepalettedata.utils import Config, Entry, is_format_string
+
+
+if typing.TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 tool_data = [

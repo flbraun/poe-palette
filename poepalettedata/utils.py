@@ -5,18 +5,19 @@ import os
 import pathlib
 import string
 import tempfile
+import typing
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Literal
+from typing import override
 
 import humanize
 import requests
-import requests.cookies
-
-from poepalettedata.types import URL
 
 
-if TYPE_CHECKING:
-    from _typeshed import Incomplete
+if typing.TYPE_CHECKING:
+    from typing import Any, Literal
+
+    from requests.cookies import RequestsCookieJar
+    from requests.models import _JSON
     from requests.sessions import (
         _Auth,
         _Cert,
@@ -29,6 +30,8 @@ if TYPE_CHECKING:
         _Timeout,
         _Verify,
     )
+
+    from poepalettedata.types import URL
 
 
 @dataclasses.dataclass(frozen=True)
@@ -76,24 +79,25 @@ class DefaultHTTPSession(requests.Session):
             humanize.naturalsize(len(r.content), binary=True).replace(' ', ''),
         )
 
-    def request(  # noqa: PLR0913, PLR0917
+    @override
+    def request(
         self,
         method: str | bytes,
         url: str | bytes,
-        params: '_Params | None' = None,
-        data: '_Data | None' = None,
-        headers: '_HeadersUpdateMapping | None' = None,
-        cookies: 'requests.cookies.RequestsCookieJar | _TextMapping | None' = None,
-        files: '_Files | None' = None,
-        auth: '_Auth | None' = None,
-        timeout: '_Timeout | None' = None,
-        allow_redirects: bool = True,  # noqa: FBT001, FBT002
-        proxies: '_TextMapping | None' = None,
-        hooks: '_HooksInput | None' = None,
-        stream: bool | None = None,  # noqa: FBT001
-        verify: '_Verify | None' = None,
-        cert: '_Cert | None' = None,
-        json: 'Incomplete | None' = None,
+        params: _Params | None = None,
+        data: _Data | None = None,
+        headers: _HeadersUpdateMapping | None = None,
+        cookies: RequestsCookieJar | _TextMapping | None = None,
+        files: _Files | None = None,
+        auth: _Auth | None = None,
+        timeout: _Timeout | None = None,
+        allow_redirects: bool = True,
+        proxies: _TextMapping | None = None,
+        hooks: _HooksInput | None = None,
+        stream: bool | None = None,
+        verify: _Verify | None = None,
+        cert: _Cert | None = None,
+        json: _JSON | None = None,
     ) -> requests.Response:
         if self.default_user_agent is not None:
             if headers is None:

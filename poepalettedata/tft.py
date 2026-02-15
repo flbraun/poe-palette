@@ -1,12 +1,17 @@
 import functools
 import http
 import logging
-from collections.abc import Generator
+import typing
 
 import emoji
 
-from poepalettedata.types import URL
 from poepalettedata.utils import Config, DefaultHTTPSession, Entry, get_secret
+
+
+if typing.TYPE_CHECKING:
+    from collections.abc import Generator
+
+    from poepalettedata.types import URL
 
 
 logger = logging.getLogger(__name__)

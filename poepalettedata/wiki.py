@@ -1,7 +1,6 @@
 import http
 import logging
-from collections.abc import Generator
-from typing import Any
+import typing
 
 from poepalettedata.antiquary import make_antiquary_url
 from poepalettedata.craftofexile import get_craftofexile_index, make_craftofexile_url
@@ -10,6 +9,10 @@ from poepalettedata.trade import automake_trade_url
 from poepalettedata.types import URL, NinjaCategory, Rarity
 from poepalettedata.utils import Config, DefaultHTTPSession, Entry, make_poedb_url, make_wiki_url
 
+
+if typing.TYPE_CHECKING:
+    from collections.abc import Generator
+    from typing import Any
 
 logger = logging.getLogger(__name__)
 
