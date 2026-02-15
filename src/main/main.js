@@ -65,6 +65,7 @@ app.whenReady().then(() => {
     console.log(`Running Node v${process.versions.node}`)
     console.log(`Running Electron v${process.versions.electron}`)
     console.log(`Running Chromium v${process.versions.chrome}`)
+    console.log(`Hardware acceleration enabled: ${app.isHardwareAccelerationEnabled()}`)
     console.log('----------------------------------------')
 
     const paletteWindow = createPaletteWindow()
