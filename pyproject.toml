@@ -1,0 +1,21 @@
+[project]
+name = "poepalettedata"
+version = "0.0.1"
+dependencies = [
+    "boto3",
+    "sentry-sdk",
+    "humanize",
+    "requests",
+    "emoji",
+]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "mypy",
+    "boto3-stubs",
+    "types-requests",
+]
+
+[tool.uv]
+package = false

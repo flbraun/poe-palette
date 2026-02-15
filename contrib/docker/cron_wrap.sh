@@ -4,4 +4,4 @@ LEAGUE_TYPE=$1
 
 cd /app
 source /etc/env/poepalettedata/loadenv.sh
-python3 -m poepalettedata $LEAGUE_TYPE
+/opt/virtualenvs/poepalettedata/bin/python3 -m poepalettedata $LEAGUE_TYPE

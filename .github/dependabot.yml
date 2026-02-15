@@ -10,7 +10,7 @@ updates:
     labels:
       - "electron"
       - "ignore-for-release"
-  - package-ecosystem: "pip-compile"
+  - package-ecosystem: "uv"
     directory: "/"
     schedule:
       interval: "weekly"
