@@ -3,17 +3,17 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     labels:
-      - "electron"
-      - "ignore-for-release"
-  - package-ecosystem: "uv"
-    directory: "/"
+      - 'electron'
+      - 'ignore-for-release'
+  - package-ecosystem: 'uv'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     labels:
-      - "data"
-      - "ignore-for-release"
+      - 'data'
+      - 'ignore-for-release'

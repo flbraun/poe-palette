@@ -84,11 +84,9 @@ app.whenReady().then(() => {
     })
 
     // register shortcuts
-    const shortcuts = new Map([ // shortcut => callback
-        [
-            userSettings.get('paletteShortcut'),
-            () => toggleWindowVisibility(paletteWindow),
-        ],
+    const shortcuts = new Map([
+        // shortcut => callback
+        [userSettings.get('paletteShortcut'), () => toggleWindowVisibility(paletteWindow)],
         [
             userSettings.get('itemOnPaletteShortcut'),
             () => {

@@ -18,7 +18,7 @@ const ICONS = {
 }
 
 const resultTypes = ['wiki', 'poedb', 'ninja', 'trade', 'tft', 'antiq', 'craft', 'tool']
-const specialSearchPrefixes = resultTypes.map(e => `${e}:`)
+const specialSearchPrefixes = resultTypes.map((e) => `${e}:`)
 
 // register click handlers that hide the window when clicking outside of the palette area
 document.getElementsByTagName('body')[0].addEventListener('click', () => {
@@ -58,7 +58,10 @@ const makePalette = (searchInput, resultlist) => {
         result.classList.add('result')
         result.appendChild(image)
         result.appendChild(label)
-        result.onclick = (event) => { event.preventDefault(); window.electronAPI.externalUrlOpen(target) }
+        result.onclick = (event) => {
+            event.preventDefault()
+            window.electronAPI.externalUrlOpen(target)
+        }
 
         resultlist.appendChild(result)
     }
@@ -98,10 +101,10 @@ const makePalette = (searchInput, resultlist) => {
 
         // prepare search
         let term = searchInput.value.trim()
-        let targetedSearch = null  // null or one of resultTypes
+        let targetedSearch = null // null or one of resultTypes
 
         // are we searching for something special? e.g. "ninja:fragment of"
-        const targetedSearchesMatched = specialSearchPrefixes.filter(e => term.startsWith(e))
+        const targetedSearchesMatched = specialSearchPrefixes.filter((e) => term.startsWith(e))
         if (targetedSearchesMatched.length > 0) {
             targetedSearch = targetedSearchesMatched[0].replace(':', '')
             term = term.substring(targetedSearch.length + 1)
@@ -112,7 +115,8 @@ const makePalette = (searchInput, resultlist) => {
         }
 
         // perform search
-        const timeName = targetedSearch !== null ? `targeted search (${targetedSearch}) for "${term}"` : `search for "${term}"` // eslint-disable-line max-len
+        const timeName =
+            targetedSearch !== null ? `targeted search (${targetedSearch}) for "${term}"` : `search for "${term}"`
         console.time(timeName)
         const searchresults = POEPALETTE_MINISEARCH.search(term, { prefix: true, fuzzy: 0.2 })
         console.timeEnd(timeName)
@@ -120,72 +124,76 @@ const makePalette = (searchInput, resultlist) => {
         // handle search results
         if (searchresults.length === 0) {
             // no results found, offer wiki search
-            addResultNode(ICONS.WIKI, `Search wiki for "${term}"`, `https://www.poewiki.net/index.php?title=Special:Search&search=${term}`) // eslint-disable-line max-len
+            addResultNode(
+                ICONS.WIKI,
+                `Search wiki for "${term}"`,
+                `https://www.poewiki.net/index.php?title=Special:Search&search=${term}`,
+            )
         } else {
             // render first N search results
             const maxResults = targetedSearch === null ? 5 : 5 * resultTypes.length
-            searchresults.slice(0, maxResults).forEach(r => {
+            searchresults.slice(0, maxResults).forEach((r) => {
                 if (
-                    enabledResultTypes.includes('wiki')
-                    && [null, 'wiki'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'wiki_url')
-                    && r.wiki_url !== null
+                    enabledResultTypes.includes('wiki') &&
+                    [null, 'wiki'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'wiki_url') &&
+                    r.wiki_url !== null
                 ) {
                     addResultNode(ICONS.WIKI, r.display_text, r.wiki_url)
                 }
                 if (
-                    enabledResultTypes.includes('poedb')
-                    && [null, 'poedb'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'poedb_url')
-                    && r.poedb_url !== null
+                    enabledResultTypes.includes('poedb') &&
+                    [null, 'poedb'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'poedb_url') &&
+                    r.poedb_url !== null
                 ) {
                     addResultNode(ICONS.POEDB, r.display_text, r.poedb_url)
                 }
                 if (
-                    enabledResultTypes.includes('ninja')
-                    && [null, 'ninja'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'ninja_url')
-                    && r.ninja_url !== null
+                    enabledResultTypes.includes('ninja') &&
+                    [null, 'ninja'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'ninja_url') &&
+                    r.ninja_url !== null
                 ) {
                     addResultNode(ICONS.NINJA, r.display_text, r.ninja_url)
                 }
                 if (
-                    enabledResultTypes.includes('trade')
-                    && [null, 'trade'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'trade_url')
-                    && r.trade_url !== null
+                    enabledResultTypes.includes('trade') &&
+                    [null, 'trade'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'trade_url') &&
+                    r.trade_url !== null
                 ) {
                     addResultNode(ICONS.TRADE, `Trade for ${r.display_text}`, r.trade_url)
                 }
                 if (
-                    enabledResultTypes.includes('tft')
-                    && [null, 'tft'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'tft_url')
-                    && r.tft_url !== null
+                    enabledResultTypes.includes('tft') &&
+                    [null, 'tft'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'tft_url') &&
+                    r.tft_url !== null
                 ) {
                     addResultNode(ICONS.TFT, r.display_text, r.tft_url)
                 }
                 if (
-                    enabledResultTypes.includes('antiquary')
-                    && [null, 'antiq'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'antiquary_url')
-                    && r.antiquary_url !== null
+                    enabledResultTypes.includes('antiquary') &&
+                    [null, 'antiq'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'antiquary_url') &&
+                    r.antiquary_url !== null
                 ) {
                     addResultNode(ICONS.ANTIQUARY, r.display_text, r.antiquary_url)
                 }
                 if (
-                    enabledResultTypes.includes('craftofexile')
-                    && [null, 'craft'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'craftofexile_url')
-                    && r.craftofexile_url !== null
+                    enabledResultTypes.includes('craftofexile') &&
+                    [null, 'craft'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'craftofexile_url') &&
+                    r.craftofexile_url !== null
                 ) {
                     addResultNode(ICONS.CRAFTOFEXILE, `Craft ${r.display_text}`, r.craftofexile_url)
                 }
                 if (
-                    enabledResultTypes.includes('tools')
-                    && [null, 'tool'].includes(targetedSearch)
-                    && Object.prototype.hasOwnProperty.call(r, 'tool_url')
-                    && r.tool_url !== null
+                    enabledResultTypes.includes('tools') &&
+                    [null, 'tool'].includes(targetedSearch) &&
+                    Object.prototype.hasOwnProperty.call(r, 'tool_url') &&
+                    r.tool_url !== null
                 ) {
                     addResultNode(ICONS.GOTO, `Open ${r.display_text}`, r.tool_url)
                 }

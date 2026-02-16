@@ -87,8 +87,7 @@ exports.createTray = (leftClickCallback, window) => {
             label: 'Challenge',
             checked: userSettings.get('league') === 'challenge',
             click: () => {
-                userSettings.set('league', 'challenge'),
-                window.webContents.send('leagueChanged', 'challenge')
+                ;(userSettings.set('league', 'challenge'), window.webContents.send('leagueChanged', 'challenge'))
             },
         },
         {
@@ -96,8 +95,7 @@ exports.createTray = (leftClickCallback, window) => {
             label: 'Challenge Hardcore',
             checked: userSettings.get('league') === 'challengehc',
             click: () => {
-                userSettings.set('league', 'challengehc'),
-                window.webContents.send('leagueChanged', 'challengehc')
+                ;(userSettings.set('league', 'challengehc'), window.webContents.send('leagueChanged', 'challengehc'))
             },
         },
         {
@@ -105,8 +103,7 @@ exports.createTray = (leftClickCallback, window) => {
             label: 'Standard',
             checked: userSettings.get('league') === 'standard',
             click: () => {
-                userSettings.set('league', 'standard'),
-                window.webContents.send('leagueChanged', 'standard')
+                ;(userSettings.set('league', 'standard'), window.webContents.send('leagueChanged', 'standard'))
             },
         },
         {
@@ -114,8 +111,7 @@ exports.createTray = (leftClickCallback, window) => {
             label: 'Hardcore',
             checked: userSettings.get('league') === 'hardcore',
             click: () => {
-                userSettings.set('league', 'hardcore'),
-                window.webContents.send('leagueChanged', 'hardcore')
+                ;(userSettings.set('league', 'hardcore'), window.webContents.send('leagueChanged', 'hardcore'))
             },
         },
         { type: 'separator' },
