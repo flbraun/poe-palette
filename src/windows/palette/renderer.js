@@ -32,7 +32,7 @@ const initMinisearch = async (league) => {
     let content
     try {
         content = await response.json()
-    } catch(error) {
+    } catch (error) {
         window.electronAPI.panic(`Failed to parse index data from ${url} (${error.message})`)
         return
     }
@@ -53,9 +53,7 @@ const checkForDataUpdates = async () => {
 
     const response = await fetch(url, { method: 'HEAD' })
     if (response.status !== 200) {
-        window.electronAPI.panic(
-            `Failed to check for data updates at ${url} (HTTP status ${response.status})`,
-        )
+        window.electronAPI.panic(`Failed to check for data updates at ${url} (HTTP status ${response.status})`)
         return
     }
 

@@ -1,42 +1,41 @@
 name: Release
 
 on:
-    push:
-        tags:
-            - "v*.*.*"
+  push:
+    tags:
+      - 'v*.*.*'
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    build:
-        runs-on: windows-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.14
 
-            - name: Set up Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20.14
+      - name: Install dependencies
+        run: npm ci
 
-            - name: Install dependencies
-              run: npm ci
+      - name: Sanity-check tag and app version
+        uses: geritol/match-tag-to-package-version@0.2.0
+        with:
+          TAG_PREFIX: v
 
-            - name: Sanity-check tag and app version
-              uses: geritol/match-tag-to-package-version@0.2.0
-              with:
-                  TAG_PREFIX: v
+      - name: Build
+        run: npm run make
 
-            - name: Build
-              run: npm run make
-
-            - name: Create release
-              uses: softprops/action-gh-release@v2
-              with:
-                  generate_release_notes: true
-                  fail_on_unmatched_files: true
-                  files: |
-                      out/make/zip/win32/x64/poe-palette-win32-x64-*.zip
-                      LICENSE.txt
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            out/make/zip/win32/x64/poe-palette-win32-x64-*.zip
+            LICENSE.txt

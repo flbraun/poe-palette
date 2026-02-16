@@ -35,7 +35,8 @@ exports.checkForUpdates = () => {
                     buttons: ['Yes', 'No'],
                 })
 
-                if (buttonClicked === 0) { // 0 is index of 'Yes' button
+                if (buttonClicked === 0) {
+                    // 0 is index of 'Yes' button
                     shell.openExternal(releasePage)
                     app.quit()
                 }

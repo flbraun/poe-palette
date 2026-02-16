@@ -2,28 +2,36 @@
     font-family: Fontin;
     font-style: normal;
     font-weight: 500;
-    src: local('Fontin'), url('Fontin-Regular.woff') format('woff');
+    src:
+        local('Fontin'),
+        url('Fontin-Regular.woff') format('woff');
 }
 
 @font-face {
     font-family: Fontin;
     font-style: italic;
     font-weight: 500;
-    src: local('Fontin'), url('Fontin-Italic.woff') format('woff');
+    src:
+        local('Fontin'),
+        url('Fontin-Italic.woff') format('woff');
 }
 
 @font-face {
     font-family: Fontin;
     font-style: normal;
     font-weight: 700;
-    src: local('Fontin'), url('Fontin-Bold.woff') format('woff');
+    src:
+        local('Fontin'),
+        url('Fontin-Bold.woff') format('woff');
 }
 
 @font-face {
     font-family: 'Fontin SmallCaps';
     font-style: normal;
     font-weight: 500;
-    src: local('Fontin SmallCaps'), url('Fontin-SmallCaps.woff') format('woff');
+    src:
+        local('Fontin SmallCaps'),
+        url('Fontin-SmallCaps.woff') format('woff');
 }
 
 :root {
