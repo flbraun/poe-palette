@@ -125,7 +125,7 @@ def make_trade_url(league_name: str, type_: str, name: str | None = None) -> URL
     # do not change the order of the keys carelessly! the trade site is very sensitive about them.
     query: dict[str, dict[str, Any]] = {
         'query': {
-            'status': {'option': 'online'},
+            'status': {'option': 'securable'},
             'type': type_,
             'stats': [{'type': 'and', 'filters': []}],
         },
