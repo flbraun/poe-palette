@@ -20,7 +20,7 @@
     "@eslint/compat": "^2.0.2",
     "@eslint/js": "^10.0.1",
     "electron": "^39.6.1",
-    "eslint": "^10.0.0",
+    "eslint": "^10.0.2",
     "globals": "^17.3.0",
     "prettier": "^3.8.1",
     "stylelint": "^17.3.0",
