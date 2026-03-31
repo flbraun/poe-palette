@@ -10,11 +10,11 @@ updates:
     groups:
       electron-forge:
         patterns:
-          - "@electron-forge/*"
+          - '@electron-forge/*'
       eslint:
         patterns:
           - eslint
-          - "@eslint/*"
+          - '@eslint/*'
       stylelint:
         patterns:
           - stylelint*
