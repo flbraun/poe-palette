@@ -7,6 +7,17 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    groups:
+      electron-forge:
+        patterns:
+          - @electron-forge/*
+      eslint:
+        patterns:
+          - eslint
+          - @eslint/*
+      stylelint:
+        patterns:
+          - stylelint*
     labels:
       - 'electron'
       - 'ignore-for-release'
@@ -14,6 +25,15 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    groups:
+      boto3:
+        patterns:
+          - boto3
+          - boto3-stubs
+      requests:
+        patterns:
+          - requests
+          - types-requests
     labels:
       - 'data'
       - 'ignore-for-release'
